@@ -47,6 +47,7 @@ function onMouseDown(event) {
 			name: 'test'
 			// fullySelected: true
 		});
+		path.add(event.point);
 	} else {
 		project.activeLayer.selected = false;
 	}
@@ -64,7 +65,9 @@ function onMouseDrag(event) {
 
 function onMouseUp(event) {
 	if (mode == 'draw') {
-		path.simplify(10);
+		if(path.segments.length > 5) {
+			path.simplify(10);
+		}
 	}
 
 	// path.fullySelected = true;
