@@ -34,7 +34,7 @@ $('#load-button').click(function() {
     $('#load-textarea').removeClass('d-none');
 });
 
-$('#save-button, #save-load-done').click(function() {
+$('#save-button, #save-load').click(function() {
     $('#save-button').addClass('d-none');
     $('#load-button').removeClass('d-none');
     
