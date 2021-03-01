@@ -38,22 +38,34 @@ function onMouseDown(event) {
 
 	updateValues();
 
-	path = new Path({
-		segments: [event.point],
-		strokeColor: color,
-		strokeWidth: Number(width),
-		strokeCap: 'round',
-		name: 'test'
-		// fullySelected: true
-	});
+	if (mode == 'draw') {
+		path = new Path({
+			segments: [event.point],
+			strokeColor: color,
+			strokeWidth: Number(width),
+			strokeCap: 'round',
+			name: 'test'
+			// fullySelected: true
+		});
+	} else {
+		project.activeLayer.selected = false;
+	}
 }
 
 function onMouseDrag(event) {
-	path.add(event.point);
+	if (mode == 'draw') {
+		path.add(event.point);
+	} else {
+		if (event.item) {
+			event.item.remove();
+		}
+	}
 }
 
 function onMouseUp(event) {
-	path.simplify(10);
+	if (mode == 'draw') {
+		path.simplify(10);
+	}
 
 	// path.fullySelected = true;
 
