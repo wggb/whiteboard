@@ -2,49 +2,89 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Whiteboard</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Whiteboard</title>
 
-    <script src="lib/paper/paper-full.min.js"></script>
-    <script type="text/paperscript" canvas="whiteboard" src="js/whiteboard.js"></script>
+  <script src="lib/paper/paper-full.min.js"></script>
+  <script type="text/paperscript" canvas="whiteboard" src="js/whiteboard.js"></script>
 
-    <link rel="stylesheet" href="lib/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="lib/bootstrap-icons/bootstrap-icons.css">
-    <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="lib/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="lib/bootstrap-icons/bootstrap-icons.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <div class="px-1 position-fixed sticky-sidebar">
-        <button type="button" id="draw" class="btn btn-light border p-0">
-            <em class="bi bi-brush"></em>
-        </button>
-        <button type="button" id="del" class="btn btn-light border p-0">
-            <em class="bi bi-eraser"></em>
-        </button>
+  <div class="px-1 position-fixed sticky-sidebar">
+    <button type="button" id="draw" class="btn btn-light border p-0">
+      <em class="bi bi-brush"></em>
+    </button>
+    <button type="button" id="del" class="btn btn-light border p-0">
+      <em class="bi bi-eraser"></em>
+    </button>
 
-        <hr>
+    <hr>
 
-        <input type="text" id="mode" class="d-none" value="draw">
-        <input type="color" id="color" class="form-control bg-light" value="#000000">
-        <input type="text" id="width" class="form-control bg-light" value="10">
+    <input type="text" id="mode" class="d-none" value="draw">
+    <input type="color" id="color" class="form-control bg-light" value="#000000">
+    <input type="text" id="width" class="form-control bg-light" value="10">
 
-        <hr>
+    <hr>
 
-        <a type="button" class="btn btn-light border p-0" href="https://github.com/WhiteGooseGoesBlack/Whiteboard"
-            target="_blank">
-            <em class="bi bi-github"></em>
-        </a>
+    <button type="button" id="del" class="btn btn-light border p-0" data-toggle="modal" data-target="#save-load-modal">
+      <em class="bi bi-save"></em>
+    </button>
+
+    <hr>
+
+    <a type="button" class="btn btn-light border p-0" href="https://github.com/WhiteGooseGoesBlack/Whiteboard"
+      target="_blank">
+      <em class="bi bi-github"></em>
+    </a>
+  </div>
+
+  <div class="modal fade" id="save-load-modal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="save-load-lable" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title d-none" id="save-load-lable">Save & Load</h5>
+          <h5 class="modal-title" id="save-lable">Save</h5>
+          <h5 class="modal-title d-none" id="load-lable">Load</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <textarea id="save-textarea" class="form-control" aria-label="With textarea" readonly></textarea>
+          <textarea id="load-textarea" class="form-control d-none" aria-label="With textarea"></textarea>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button id="load-button" type="button" class="btn btn-light border">
+            <em class="bi bi-upload"></em>
+            Load data
+          </button>
+          <button id="save-button" type="button" class="btn btn-light border d-none">
+            <em class="bi bi-download"></em>
+            Save data
+          </button>
+          <button id="save-load-done" type="button" class="btn btn-dark" data-dismiss="modal">
+            <em class="bi bi-check2"></em>
+            Done
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <div class="main">
-        <canvas resize="true" id="whiteboard" data-paper-scope="1"></canvas>
-    </div>
+  <div class="main">
+    <canvas resize="true" id="whiteboard" data-paper-scope="1"></canvas>
+  </div>
 
-    <script src="lib/jquery/jquery.min.js"></script>
-    <script src="lib/bootstrap/bootstrap.bundle.min.js"></script>
-    <script src="js/site.js"></script>
+  <script src="lib/jquery/jquery.min.js"></script>
+  <script src="lib/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="js/site.js"></script>
 </body>
 
 </html>

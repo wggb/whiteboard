@@ -8,9 +8,17 @@ var mode = defaultValues.mode;
 var color = defaultValues.color;
 var width = defaultValues.width;
 
+var paths = [];
+
+var pathId = 0;
 var path;
 
-var check = false;
+function clearWhiteboard() {
+	for (var i = 0; i < paths.length; i++) {
+		paths[i].remove();
+	}
+	paths = [];
+}
 
 function updateValues() {
 	mode = document.getElementById('mode').value;
@@ -31,6 +39,28 @@ function updateValues() {
 	}
 }
 
+function deletePathFromArray(name) {
+	for (var i = 0; i < paths.length; i++) {
+		if (paths[i].name == name) {
+			paths.splice(i, 1);
+		}
+	}
+}
+
+function loadPaths(text) {
+	clearWhiteboard();
+	
+	try {
+		var loadedPaths = JSON.parse(text);
+		while (loadedPaths.length > 0) {
+			paths.push(new Path(loadedPaths.shift()[1]));
+		}
+	} catch (error) {
+		alert('Text can\'t be parsed.');
+	}
+	document.getElementById('save-textarea').value = JSON.stringify(paths);
+}
+
 function onMouseDown(event) {
 	if (path) {
 		path.selected = false;
@@ -39,12 +69,13 @@ function onMouseDown(event) {
 	updateValues();
 
 	if (mode == 'draw') {
+		var pathName = '#' + pathId++;
 		path = new Path({
 			segments: [event.point],
 			strokeColor: color,
 			strokeWidth: Number(width),
 			strokeCap: 'round',
-			name: 'test'
+			name: pathName
 			// fullySelected: true
 		});
 		path.add(event.point);
@@ -58,6 +89,7 @@ function onMouseDrag(event) {
 		path.add(event.point);
 	} else {
 		if (event.item) {
+			deletePathFromArray(event.item.name);
 			event.item.remove();
 		}
 	}
@@ -68,10 +100,21 @@ function onMouseUp(event) {
 		if(path.segments.length > 5) {
 			path.simplify(10);
 		}
+		paths.push(path);
 	}
 
 	// path.fullySelected = true;
 
-	// var personJSONString = JSON.stringify(path);
-	// console.log(personJSONString);
+	document.getElementById('save-textarea').value = JSON.stringify(paths);
 }
+
+var doneButton = document.getElementById('save-load-done');
+doneButton.addEventListener('click', function(e) {
+	if (document.getElementById('save-textarea').classList.contains('d-none')) {
+		var loadText = document.getElementById('load-textarea').value.trim();
+		if (loadText != '') {
+			loadPaths(loadText);
+		}
+		document.getElementById('load-textarea').value = '';
+	}
+});

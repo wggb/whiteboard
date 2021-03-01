@@ -37,6 +37,16 @@ canvas {
 
 }
 
+.modal-dialog {
+    max-width: 1000px;
+}
+
+.modal-dialog textarea {
+    height: 50vh;
+    min-height: 200px;
+    max-height: 1000px;
+}
+
 canvas[resize],
 canvas#whiteboard {
     width: 100%;
