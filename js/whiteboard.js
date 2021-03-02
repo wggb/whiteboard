@@ -13,6 +13,8 @@ var paths = [];
 var pathId = 0;
 var path;
 
+var clickPoint;
+
 function clearWhiteboard() {
 	for (var i = 0; i < paths.length; i++) {
 		paths[i].remove();
@@ -25,7 +27,7 @@ function updateValues() {
 	color = document.getElementById('color').value;
 	width = document.getElementById('width').value;
 
-	if (mode != 'draw' && mode != 'del') {
+	if (!mode) {
 		mode = defaultValues.mode;
 	}
 
@@ -79,19 +81,25 @@ function onMouseDown(event) {
 			// fullySelected: true
 		});
 		path.add(event.point);
-	} else {
+	} else if (mode == 'del') {
 		project.activeLayer.selected = false;
+	} else if (mode == 'move') {
+		// Select a point
+		clickPoint = event.point;
 	}
 }
 
 function onMouseDrag(event) {
 	if (mode == 'draw') {
 		path.add(event.point);
-	} else {
+	} else if (mode == 'del') {
 		if (event.item) {
 			deletePathFromArray(event.item.name);
 			event.item.remove();
 		}
+	} else if (mode == 'move') {
+		// Find distance between current point and that point
+		view.center += clickPoint - event.point;
 	}
 }
 

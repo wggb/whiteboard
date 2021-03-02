@@ -15,12 +15,21 @@ $('#draw').click(function() {
     $('#mode')[0].value = 'draw';
     $('#draw').addClass('btn-dark');
     $('#del').removeClass('btn-dark');
+    $('#move').removeClass('btn-dark');
 });
 
 $('#del').click(function() {
     $('#mode')[0].value = 'del';
     $('#del').addClass('btn-dark');
     $('#draw').removeClass('btn-dark');
+    $('#move').removeClass('btn-dark');
+});
+
+$('#move').click(function() {
+    $('#mode')[0].value = 'move';
+    $('#move').addClass('btn-dark');
+    $('#draw').removeClass('btn-dark');
+    $('#del').removeClass('btn-dark');
 });
 
 $('#load-button').click(function() {
