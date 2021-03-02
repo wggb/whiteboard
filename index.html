@@ -9,6 +9,7 @@
 
   <script src="lib/paper/paper-full.min.js"></script>
   <script type="text/paperscript" canvas="whiteboard" src="js/whiteboard.js"></script>
+  <script type="text/paperscript" canvas="whiteboard" src="js/file.js"></script>
 
   <link rel="stylesheet" href="lib/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="lib/bootstrap-icons/bootstrap-icons.css">
@@ -32,7 +33,8 @@
 
     <hr>
 
-    <button type="button" id="save-load" class="btn btn-light border p-0" data-toggle="modal" data-target="#save-load-modal">
+    <button type="button" id="save-load" class="btn btn-light border p-0" data-toggle="modal"
+      data-target="#save-load-modal">
       <em class="bi bi-save"></em>
     </button>
 
@@ -47,32 +49,49 @@
   <div class="modal fade" id="save-load-modal" data-backdrop="static" data-keyboard="false" tabindex="-1"
     aria-labelledby="save-load-lable" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
+      <div class="modal-content m-2">
         <div class="modal-header">
           <h5 class="modal-title d-none" id="save-load-lable">Save & Load</h5>
-          <h5 class="modal-title" id="save-lable">Save</h5>
-          <h5 class="modal-title d-none" id="load-lable">Load</h5>
+          <h5 class="modal-title save-item" id="save-lable">Save</h5>
+          <h5 class="modal-title load-item d-none" id="load-lable">Load</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <textarea id="save-textarea" class="form-control" aria-label="With textarea" readonly></textarea>
-          <textarea id="load-textarea" class="form-control d-none" aria-label="With textarea"></textarea>
+          <textarea id="save-textarea" class="form-control save-item" aria-label="With textarea" readonly></textarea>
+          <textarea id="load-textarea" class="form-control load-item d-none" aria-label="With textarea"></textarea>
         </div>
-        <div class="modal-footer justify-content-center">
-          <button id="load-button" type="button" class="btn btn-light border">
-            <em class="bi bi-upload"></em>
-            Load data
-          </button>
-          <button id="save-button" type="button" class="btn btn-light border d-none">
-            <em class="bi bi-download"></em>
-            Save data
-          </button>
-          <button id="save-load-done" type="button" class="btn btn-dark" data-dismiss="modal">
-            <em class="bi bi-check2"></em>
-            Done
-          </button>
+        <div class="modal-footer justify-content-between">
+          <div class="modal-buttons">
+            <button id="save-jpeg-button" type="button" class="btn btn-light border save-item">
+              <em class="bi bi-file-earmark-image"></em>
+              Save as JPEG
+            </button>
+            <button id="save-json-button" type="button" class="btn btn-light border save-item">
+              <em class="bi bi-file-earmark-code"></em>
+              Save as JSON
+            </button>
+            <button id="load-json-button" type="button" class="btn btn-light border load-item">
+              <em class="bi bi-file-earmark-code"></em>
+              Load from JSON
+            </button>
+            <input type="file" id="load-json-file" accept="application/JSON" class="d-none">
+          </div>
+          <div class="modal-buttons">
+            <button id="load-button" type="button" class="btn btn-light border save-item">
+              <em class="bi bi-upload"></em>
+              Load data
+            </button>
+            <button id="save-button" type="button" class="btn btn-light border load-item d-none">
+              <em class="bi bi-download"></em>
+              Save data
+            </button>
+            <button id="save-load-done" type="button" class="btn btn-dark" data-dismiss="modal">
+              <em class="bi bi-check2"></em>
+              Done
+            </button>
+          </div>
         </div>
       </div>
     </div>

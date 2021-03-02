@@ -24,25 +24,17 @@ $('#del').click(function() {
 });
 
 $('#load-button').click(function() {
-    $('#load-button').addClass('d-none');
-    $('#save-button').removeClass('d-none');
-    
-    $('#save-lable').addClass('d-none');
-    $('#load-lable').removeClass('d-none');
-    
-    $('#save-textarea').addClass('d-none');
-    $('#load-textarea').removeClass('d-none');
+    $('.save-item').addClass('d-none');
+    $('.load-item').removeClass('d-none');
 });
 
 $('#save-button, #save-load').click(function() {
-    $('#save-button').addClass('d-none');
-    $('#load-button').removeClass('d-none');
-    
-    $('#load-lable').addClass('d-none');
-    $('#save-lable').removeClass('d-none');
-    
-    $('#load-textarea').addClass('d-none');
-    $('#save-textarea').removeClass('d-none');
+    $('.load-item').addClass('d-none');
+    $('.save-item').removeClass('d-none');
+});
+
+$('#load-json-button').click(function() {
+    $('#load-json-file').click();
 });
 
 $('#draw').addClass('btn-dark');

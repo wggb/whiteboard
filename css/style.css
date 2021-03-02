@@ -47,6 +47,23 @@ canvas {
     max-height: 1000px;
 }
 
+.modal-footer button,
+.modal-footer *[type="button"] {
+    margin: 5px 0;
+}
+
+@media (max-width: 640px) {
+    .modal-footer button,
+    .modal-footer *[type="button"] {
+        width: 100%;
+    }
+
+    .modal-footer .modal-buttons {
+        display: block;
+        width: 100%;
+    }
+}
+
 canvas[resize],
 canvas#whiteboard {
     width: 100%;
