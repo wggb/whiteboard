@@ -9,6 +9,7 @@ var color = defaultValues.color;
 var width = defaultValues.width;
 
 var paths = [];
+var selectedPath;
 
 var pathId = 0;
 var path;
@@ -22,12 +23,6 @@ function clearWhiteboard() {
 		paths[i].remove();
 	}
 	paths = [];
-}
-
-function deselectAll() {
-	for (var i = 0; i < paths.length; i++) {
-		paths[i].selected = false;
-	}
 }
 
 function updateValues() {
@@ -65,18 +60,18 @@ function loadPaths(text) {
 		while (loadedPaths.length > 0) {
 			paths.push(new Path(loadedPaths.shift()[1]));
 		}
-		alert('Text can\'t be parsed.');
 	} catch (error) {
+		alert('Text can\'t be parsed.');
 	}
 }
 
 function drawSelectRectangle(firstPoint, secondPoint) {
 	var rectangle = new Rectangle(firstPoint, secondPoint);
-	var path = new Path.Rectangle(rectangle);
-	path.fillColor = '#eff9ff40';
-	path.selected = true;
-	path.removeOnDrag().removeOnUp();
-	return path;
+	var rectanglePath = new Path.Rectangle(rectangle);
+	rectanglePath.fillColor = '#eff9ff40';
+	rectanglePath.selected = true;
+	rectanglePath.removeOnDrag().removeOnUp();
+	return rectanglePath;
 }
 
 function selectBox(event) {
@@ -93,10 +88,10 @@ function selectBox(event) {
 }
 
 function onMouseDown(event) {
-	deselectAll();
-	clickPoint = event.point;
-
 	updateValues();
+	
+	project.activeLayer.selected = false;
+	clickPoint = event.point;
 	
 	if (Key.isDown('shift')) {
 		// Nothing
@@ -131,8 +126,25 @@ function onMouseDrag(event) {
 				event.item.remove();
 			}
 		} else if (mode == 'move') {
-			// Find distance between current point and that point
-			view.center += clickPoint - event.point;
+			if (Key.isDown('s')) {
+				if (selectedPath) {
+					selectedPath.position += event.delta;
+				}
+			} else {
+				// Find distance between current point and that point
+				view.center += clickPoint - event.point;
+			}
+		}
+	}
+}
+
+function onMouseMove(event) {
+	if (mode == 'move' && Key.isDown('s')) {
+		selectedPath = null;
+		project.activeLayer.selected = false;
+		if (event.item) {
+			selectedPath = event.item;
+			event.item.selected = true;
 		}
 	}
 }
@@ -156,6 +168,7 @@ function onMouseUp(event) {
 }
 
 tool.onKeyDown = function(event) {
+	updateValues();
 	if (event.key == 'backspace' || event.key == 'delete') {
 		for (var i = 0; i < paths.length; i++) {
 			if (paths[i].selected) {
@@ -166,6 +179,13 @@ tool.onKeyDown = function(event) {
         // Prevent the key event from bubbling
         return false;
     }
+}
+
+tool.onKeyUp = function(event) {
+	if (event.key == 's' && (mode == 'move' || selectedPath)) {
+		selectedPath = null;
+		project.activeLayer.selected = false;
+	}
 }
 
 var doneButton = document.getElementById('save-load-done');
@@ -180,6 +200,9 @@ doneButton.addEventListener('click', function(e) {
 });
 
 /* 
-todo: have array of selected
-	  add constructor functions
+todo: have array of selected => http://paperjs.org/reference/project/#selecteditems
+todo: add constructor functions
+
+?	  replaced "deselectAll()" with "project.activeLayer.selected = false"
+?	  maybe we can create TODO.md and CHANGELOG.md files (?)
 */
