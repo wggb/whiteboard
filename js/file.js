@@ -54,7 +54,10 @@ function readStringFromJSONFile(inputElement, outputField) {
 
 function printCanvas() {
     var rect = new Path.Rectangle({
-        point: [0, 0],
+        point: [
+            view.center.x - (view.size.width / 2),
+            view.center.y - (view.size.height / 2)
+        ],
         size: [view.size.width, view.size.height],
         strokeColor: 'white',
         selected: false

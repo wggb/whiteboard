@@ -1,7 +1,7 @@
 var defaultValues = {
 	mode: 'draw',
 	color: '#000000',
-	width: 10
+	width: 6
 }
 
 var mode = defaultValues.mode;
@@ -25,7 +25,7 @@ function clearWhiteboard() {
 	paths = [];
 }
 
-function updateValues() {
+function readValues() {
 	mode = document.getElementById('mode').value;
 	color = document.getElementById('color').value;
 	width = document.getElementById('width').value;
@@ -42,6 +42,10 @@ function updateValues() {
 	} catch (error) {
 		width = defaultValues.width;
 	}
+}
+
+function setUi() {
+	chooseButton(mode);
 }
 
 function deletePathFromArray(name) {
@@ -88,12 +92,12 @@ function selectBox(event) {
 }
 
 function onMouseDown(event) {
-	updateValues();
+	readValues();
 	
 	project.activeLayer.selected = false;
 	clickPoint = event.point;
 	
-	if (Key.isDown('shift')) {
+	if (Key.isDown('shift') || Key.isDown('q') || Key.isDown('w')) {
 		// Nothing
 	} else {
 		isBusy = true;
@@ -117,6 +121,37 @@ function onMouseDown(event) {
 function onMouseDrag(event) {
 	if (!isBusy && Key.isDown('shift')) {
 		selectBox(event);
+	} else if (!isBusy && mode == 'draw') {
+		if (Key.isDown('q')) {
+			var rect = new Rectangle(clickPoint, event.point);
+			// 6 being the smoothing amount
+			path = new Path.Rectangle(rect, 6);
+		} else if (Key.isDown('w')) {
+			if (Key.isDown('e')) {
+				path = new Path.Circle(
+					new Point(
+						clickPoint.x - ((clickPoint.x - event.point.x) / 2),
+						clickPoint.y - ((clickPoint.y - event.point.y) / 2)
+					),
+					new Point(
+						(clickPoint.x - event.point.x) / 2,
+						(clickPoint.y - event.point.y) / 2
+					)
+				);
+			} else {
+				var r = (clickPoint - event.point).length;
+				path = new Path.Circle({
+					center: clickPoint,
+					radius: r,
+				});
+			}
+		}
+
+		if (Key.isDown('q') || Key.isDown('w')) {
+			path.strokeColor = color;
+			path.strokeWidth = Number(width);
+			path.removeOnDrag();
+		}
 	} else if (isBusy) {
 		if(mode == 'draw') {
 			path.add(event.point);
@@ -152,30 +187,61 @@ function onMouseMove(event) {
 function onMouseUp(event) {
 	if (!isBusy && Key.isDown('shift')) {
 		// Nothing
+	} else if (!isBusy && mode == 'draw') {
+		if (Key.isDown('q') || Key.isDown('w')) {
+			if (path) paths.push(path);
+		}
 	} else if (isBusy) {
 		if (mode == 'draw') {
-			if(path.segments.length > 5) {
-				path.simplify(10);
+			if(path) {
+				if (path.segments.length > 5) {
+					path.simplify(10);
+				}
+				paths.push(path);
 			}
-			paths.push(path);
 		}
 	}
 
+	path = null;
 	isBusy = false;
 	clickPoint = null;
 
 	document.getElementById('save-textarea').value = JSON.stringify(paths);
 }
 
+var isSpecialKeyEnabled = false;
+
 tool.onKeyDown = function(event) {
-	updateValues();
+	readValues();
+	if (event.key == 'space' || (event.keyCode == 19 || event.keyCode == 91)) {
+		isSpecialKeyEnabled = true;
+	}
+	
+	if (isSpecialKeyEnabled) {
+		var keyMapper = {
+			'1': 'move',
+			'2': 'draw',
+			'3': 'del'
+		};
+		if (event.key == '1' || event.key == '2' || event.key == '3') {
+			mode = keyMapper[event.key];
+		}
+		setUi();
+	}
+
 	if (event.key == 'backspace' || event.key == 'delete') {
-		for (var i = 0; i < paths.length; i++) {
+		var removedPathNames = [];
+		var i;
+		for (i = 0; i < paths.length; i++) {
 			if (paths[i].selected) {
+				removedPathNames.push(paths[i].name);
 				paths[i].remove();
-				deletePathFromArray(paths[i]);
 			}
 		}
+		for (i = 0; i < removedPathNames.length; i++) {
+			deletePathFromArray(removedPathNames[i]);
+		}
+		document.getElementById('save-textarea').value = JSON.stringify(paths);
         // Prevent the key event from bubbling
         return false;
     }
@@ -185,6 +251,9 @@ tool.onKeyUp = function(event) {
 	if (event.key == 's' && (mode == 'move' || selectedPath)) {
 		selectedPath = null;
 		project.activeLayer.selected = false;
+	}
+	if (event.key == 'space' || (event.keyCode == 19 || event.keyCode == 91)) {
+		isSpecialKeyEnabled = false;
 	}
 }
 
@@ -205,4 +274,5 @@ todo: add constructor functions
 
 ?	  replaced "deselectAll()" with "project.activeLayer.selected = false"
 ?	  maybe we can create TODO.md and CHANGELOG.md files (?)
+?	  right handed and left handed mode (?)
 */

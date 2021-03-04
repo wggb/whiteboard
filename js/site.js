@@ -47,3 +47,11 @@ $('#load-json-button').click(function() {
 });
 
 $('#draw').addClass('btn-dark');
+
+
+function chooseButton(id) {
+    ['#move', '#draw', '#del'].forEach(
+        mode => $(mode).removeClass('btn-dark'));
+    $("#"+ id).addClass('btn-dark');
+    $('#mode')[0].value = id;
+}
