@@ -127,16 +127,24 @@ function onMouseDrag(event) {
 			// 6 being the smoothing amount
 			path = new Path.Rectangle(rect, 6);
 		} else if (Key.isDown('w')) {
-			path = new Path.Circle(
-				new Point(
-					clickPoint.x - ((clickPoint.x - event.point.x) / 2),
-					clickPoint.y - ((clickPoint.y - event.point.y) / 2)
-				),
-				new Point(
-					(clickPoint.x - event.point.x) / 2,
-					(clickPoint.y - event.point.y) / 2
-				)
-			);
+			if (Key.isDown('e')) {
+				path = new Path.Circle(
+					new Point(
+						clickPoint.x - ((clickPoint.x - event.point.x) / 2),
+						clickPoint.y - ((clickPoint.y - event.point.y) / 2)
+					),
+					new Point(
+						(clickPoint.x - event.point.x) / 2,
+						(clickPoint.y - event.point.y) / 2
+					)
+				);
+			} else {
+				var r = (clickPoint - event.point).length;
+				path = new Path.Circle({
+					center: clickPoint,
+					radius: r,
+				});
+			}
 		}
 
 		if (Key.isDown('q') || Key.isDown('w')) {
