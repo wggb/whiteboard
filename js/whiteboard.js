@@ -170,12 +170,18 @@ function onMouseUp(event) {
 tool.onKeyDown = function(event) {
 	updateValues();
 	if (event.key == 'backspace' || event.key == 'delete') {
-		for (var i = 0; i < paths.length; i++) {
+		var removedPathNames = [];
+		var i;
+		for (i = 0; i < paths.length; i++) {
 			if (paths[i].selected) {
+				removedPathNames.push(paths[i].name);
 				paths[i].remove();
-				deletePathFromArray(paths[i]);
 			}
 		}
+		for (i = 0; i < removedPathNames.length; i++) {
+			deletePathFromArray(removedPathNames[i]);
+		}
+		document.getElementById('save-textarea').value = JSON.stringify(paths);
         // Prevent the key event from bubbling
         return false;
     }
@@ -205,4 +211,5 @@ todo: add constructor functions
 
 ?	  replaced "deselectAll()" with "project.activeLayer.selected = false"
 ?	  maybe we can create TODO.md and CHANGELOG.md files (?)
+?	  right handed and left handed mode (?)
 */
