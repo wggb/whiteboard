@@ -93,7 +93,7 @@ function onMouseDown(event) {
 	project.activeLayer.selected = false;
 	clickPoint = event.point;
 	
-	if (Key.isDown('shift')) {
+	if (Key.isDown('shift') || Key.isDown('q') || Key.isDown('w')) {
 		// Nothing
 	} else {
 		isBusy = true;
@@ -117,6 +117,27 @@ function onMouseDown(event) {
 function onMouseDrag(event) {
 	if (!isBusy && Key.isDown('shift')) {
 		selectBox(event);
+	} else if (!isBusy && mode == 'draw') {
+		if (Key.isDown('q')) {
+			path = new Path.Rectangle(clickPoint, event.point);
+		} else if (Key.isDown('w')) {
+			path = new Path.Circle(
+				new Point(
+					clickPoint.x - ((clickPoint.x - event.point.x) / 2),
+					clickPoint.y - ((clickPoint.y - event.point.y) / 2)
+				),
+				new Point(
+					(clickPoint.x - event.point.x) / 2,
+					(clickPoint.y - event.point.y) / 2
+				)
+			);
+		}
+
+		if (Key.isDown('q') || Key.isDown('w')) {
+			path.strokeColor = color;
+			path.strokeWidth = Number(width);
+			path.removeOnDrag();
+		}
 	} else if (isBusy) {
 		if(mode == 'draw') {
 			path.add(event.point);
@@ -152,15 +173,22 @@ function onMouseMove(event) {
 function onMouseUp(event) {
 	if (!isBusy && Key.isDown('shift')) {
 		// Nothing
+	} else if (!isBusy && mode == 'draw') {
+		if (Key.isDown('q') || Key.isDown('w')) {
+			if (path) paths.push(path);
+		}
 	} else if (isBusy) {
 		if (mode == 'draw') {
-			if(path.segments.length > 5) {
-				path.simplify(10);
+			if(path) {
+				if (path.segments.length > 5) {
+					path.simplify(10);
+				}
+				paths.push(path);
 			}
-			paths.push(path);
 		}
 	}
 
+	path = null;
 	isBusy = false;
 	clickPoint = null;
 
