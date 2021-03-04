@@ -1,7 +1,7 @@
 var defaultValues = {
 	mode: 'draw',
 	color: '#000000',
-	width: 10
+	width: 6
 }
 
 var mode = defaultValues.mode;
@@ -25,7 +25,7 @@ function clearWhiteboard() {
 	paths = [];
 }
 
-function updateValues() {
+function readValues() {
 	mode = document.getElementById('mode').value;
 	color = document.getElementById('color').value;
 	width = document.getElementById('width').value;
@@ -42,6 +42,10 @@ function updateValues() {
 	} catch (error) {
 		width = defaultValues.width;
 	}
+}
+
+function setUi() {
+	chooseButton(mode);
 }
 
 function deletePathFromArray(name) {
@@ -88,7 +92,7 @@ function selectBox(event) {
 }
 
 function onMouseDown(event) {
-	updateValues();
+	readValues();
 	
 	project.activeLayer.selected = false;
 	clickPoint = event.point;
@@ -119,7 +123,9 @@ function onMouseDrag(event) {
 		selectBox(event);
 	} else if (!isBusy && mode == 'draw') {
 		if (Key.isDown('q')) {
-			path = new Path.Rectangle(clickPoint, event.point);
+			var rect = new Rectangle(clickPoint, event.point);
+			// 6 being the smoothing amount
+			path = new Path.Rectangle(rect, 6);
 		} else if (Key.isDown('w')) {
 			path = new Path.Circle(
 				new Point(
@@ -195,8 +201,26 @@ function onMouseUp(event) {
 	document.getElementById('save-textarea').value = JSON.stringify(paths);
 }
 
+var isSpecialKeyEnabled = false;
+
 tool.onKeyDown = function(event) {
-	updateValues();
+	readValues();
+	if (event.key == 'space' || (event.keyCode == 19 || event.keyCode == 91)) {
+		isSpecialKeyEnabled = true;
+	}
+	
+	if (isSpecialKeyEnabled) {
+		var keyMapper = {
+			'1': 'move',
+			'2': 'draw',
+			'3': 'del'
+		};
+		if (event.key == '1' || event.key == '2' || event.key == '3') {
+			mode = keyMapper[event.key];
+		}
+		setUi();
+	}
+
 	if (event.key == 'backspace' || event.key == 'delete') {
 		var removedPathNames = [];
 		var i;
@@ -219,6 +243,9 @@ tool.onKeyUp = function(event) {
 	if (event.key == 's' && (mode == 'move' || selectedPath)) {
 		selectedPath = null;
 		project.activeLayer.selected = false;
+	}
+	if (event.key == 'space' || (event.keyCode == 19 || event.keyCode == 91)) {
+		isSpecialKeyEnabled = false;
 	}
 }
 
