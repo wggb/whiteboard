@@ -7,30 +7,20 @@ function isLoad() {
     return $('#save-textarea').hasClass('d-none');
 }
 
+function chooseButton(id) {
+    ['#move', '#draw', '#del'].forEach(
+        mode => $(mode).removeClass('btn-dark'));
+    $("#"+ id).addClass('btn-dark');
+    $('#mode')[0].value = id;
+}
+
 if (!isCanvasSupported()) {
     alert("Canvas is not supported by your browser.");
 }
 
-$('#draw').click(function() {
-    $('#mode')[0].value = 'draw';
-    $('#draw').addClass('btn-dark');
-    $('#del').removeClass('btn-dark');
-    $('#move').removeClass('btn-dark');
-});
-
-$('#del').click(function() {
-    $('#mode')[0].value = 'del';
-    $('#del').addClass('btn-dark');
-    $('#draw').removeClass('btn-dark');
-    $('#move').removeClass('btn-dark');
-});
-
-$('#move').click(function() {
-    $('#mode')[0].value = 'move';
-    $('#move').addClass('btn-dark');
-    $('#draw').removeClass('btn-dark');
-    $('#del').removeClass('btn-dark');
-});
+$('#draw').click(function() { chooseButton('draw') });
+$('#del').click(function() { chooseButton('del') });
+$('#move').click(function() { chooseButton('move') });
 
 $('#load-button').click(function() {
     $('.save-item').addClass('d-none');
@@ -47,11 +37,3 @@ $('#load-json-button').click(function() {
 });
 
 $('#draw').addClass('btn-dark');
-
-
-function chooseButton(id) {
-    ['#move', '#draw', '#del'].forEach(
-        mode => $(mode).removeClass('btn-dark'));
-    $("#"+ id).addClass('btn-dark');
-    $('#mode')[0].value = id;
-}

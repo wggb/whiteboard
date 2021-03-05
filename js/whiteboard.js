@@ -128,21 +128,24 @@ function onMouseDrag(event) {
 			path = new Path.Rectangle(rect, 6);
 		} else if (Key.isDown('w')) {
 			if (Key.isDown('e')) {
-				path = new Path.Circle(
-					new Point(
+				path = new Path.Circle({
+					center: new Point(
 						clickPoint.x - ((clickPoint.x - event.point.x) / 2),
 						clickPoint.y - ((clickPoint.y - event.point.y) / 2)
 					),
-					new Point(
+					radius: new Point(
 						(clickPoint.x - event.point.x) / 2,
 						(clickPoint.y - event.point.y) / 2
 					)
-				);
+				});
 			} else {
-				var r = (clickPoint - event.point).length;
+				var r = (clickPoint - event.point).length / 2;
 				path = new Path.Circle({
-					center: clickPoint,
-					radius: r,
+					center: new Point(
+						clickPoint.x - ((clickPoint.x - event.point.x) / 2),
+						clickPoint.y - ((clickPoint.y - event.point.y) / 2)
+					),
+					radius: r
 				});
 			}
 		}
