@@ -4,7 +4,7 @@ window.onload = function() {
 	paper.setup('whiteboard');
 }
 
-var my_tool = new Tool();
+let tool = new Tool();
 
 var defaultValues = {
 	mode: 'draw',
@@ -99,7 +99,7 @@ function selectBox(event) {
 	}
 }
 
-my_tool.onMouseDown = function(event) {
+tool.onMouseDown = function(event) {
 	readValues();
 	
 	project.activeLayer.selected = false;
@@ -126,7 +126,7 @@ my_tool.onMouseDown = function(event) {
 	}
 }
 
-my_tool.onMouseDrag = function(event) {
+tool.onMouseDrag = function(event) {
 	if (!isBusy && Key.isDown('shift')) {
 		selectBox(event);
 	} else if (!isBusy && mode == 'draw') {
@@ -181,7 +181,7 @@ my_tool.onMouseDrag = function(event) {
 	}
 }
 
-my_tool.onMouseMove = function(event) {
+tool.onMouseMove = function(event) {
 	if (mode == 'move' && Key.isDown('s')) {
 		selectedPath = null;
 		project.activeLayer.selected = false;
@@ -192,7 +192,7 @@ my_tool.onMouseMove = function(event) {
 	}
 }
 
-my_tool.onMouseUp = function(event) {
+tool.onMouseUp = function(event) {
 	if (!isBusy && Key.isDown('shift')) {
 		// Nothing
 	} else if (!isBusy && mode == 'draw') {
@@ -219,7 +219,7 @@ my_tool.onMouseUp = function(event) {
 
 var isSpecialKeyEnabled = false;
 
-my_tool.onKeyDown = function(event) {
+tool.onKeyDown = function(event) {
 	readValues();
 	if (event.key == 'space' || (event.keyCode == 19 || event.keyCode == 91)) {
 		isSpecialKeyEnabled = true;
@@ -255,7 +255,7 @@ my_tool.onKeyDown = function(event) {
     }
 }
 
-my_tool.onKeyUp = function(event) {
+tool.onKeyUp = function(event) {
 	if (event.key == 's' && (mode == 'move' || selectedPath)) {
 		selectedPath = null;
 		project.activeLayer.selected = false;
