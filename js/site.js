@@ -10,7 +10,7 @@ function isLoad() {
 function chooseButton(id) {
     ['#move', '#draw', '#del'].forEach(
         mode => $(mode).removeClass('btn-dark'));
-    $("#"+ id).addClass('btn-dark');
+    $('#' + id).addClass('btn-dark');
     $('#mode')[0].value = id;
 }
 

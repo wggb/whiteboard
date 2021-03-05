@@ -257,6 +257,7 @@ tool.onKeyUp = function(event) {
 	}
 	if (event.key == 'space' || (event.keyCode == 19 || event.keyCode == 91)) {
 		isSpecialKeyEnabled = false;
+		setTimeout(function() { setUi(); }, 0);
 	}
 }
 
