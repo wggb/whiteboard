@@ -1,23 +1,24 @@
 function getDateAsString() {
-    var date = new Date();
-    var year = date.getFullYear().toString();
-    var month = (date.getMonth() + 1).toString();
+    let date = new Date();
+    let year = date.getFullYear().toString();
+    let month = (date.getMonth() + 1).toString();
     if (month.length < 2) month = '0' + month;
-    var day = date.getDate().toString();
+    let day = date.getDate().toString();
     if (day.length < 2) day = '0' + day;
-    var hours = date.getHours().toString();
+    let hours = date.getHours().toString();
     if (hours.length < 2) hours = '0' + hours;
-    var minutes = date.getMinutes().toString();
+    let minutes = date.getMinutes().toString();
     if (minutes.length < 2) minutes = '0' + minutes;
-    var seconds = date.getSeconds().toString();
+    let seconds = date.getSeconds().toString();
     if (seconds.length < 2) seconds = '0' + seconds;
     return year + '-' + month + '-' + day + ' ' + hours + '-' + minutes + '-' + seconds;
 }
 
 function downloadCanvasAsJPEG(canvasid, filename) {
-    var canvas = document.getElementById(canvasid);
-    var img = canvas.toDataURL('image/jpeg');
-    var element = document.createElement('a');
+    console.log('hi');
+    let canvas = document.getElementById(canvasid);
+    let img = canvas.toDataURL('image/jpeg');
+    let element = document.createElement('a');
     element.setAttribute('href', img);
     element.setAttribute('download', filename + ' ' + getDateAsString() + '.jpeg');
     element.style.display = 'none';
@@ -27,7 +28,7 @@ function downloadCanvasAsJPEG(canvasid, filename) {
 }
 
 function downloadStringAsJSON(text, filename) {
-    var element = document.createElement('a');
+    let element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
     element.setAttribute('download', filename + ' ' + getDateAsString() + '.json');
     element.style.display = 'none';
@@ -37,11 +38,11 @@ function downloadStringAsJSON(text, filename) {
 }
 
 function readStringFromJSONFile(inputElement, outputField) {
-    var file = inputElement.files[0];
-    var textType = /json.*/;
+    let file = inputElement.files[0];
+    let textType = /json.*/;
 
     if (file.type.match(textType)) {
-        var reader = new FileReader();
+        let reader = new FileReader();
         reader.onload = function(e) {
             outputField.value = reader.result;
         }
@@ -53,7 +54,7 @@ function readStringFromJSONFile(inputElement, outputField) {
 }
 
 function printCanvas() {
-    var rect = new paper.Path.Rectangle({
+    let rect = new paper.Path.Rectangle({
         point: [
             view.center.x - (view.size.width / 2),
             view.center.y - (view.size.height / 2)
@@ -71,25 +72,20 @@ function printCanvas() {
     }, 500);
 }
 
-var saveJSON = document.getElementById('save-json-button');
-var saveJPEG = document.getElementById('save-jpeg-button');
-
-var loadJSONInput = document.getElementById('load-json-file');
-
-saveJSON.addEventListener('click', function(e) {
+$('#save-json-button').click(function() {
     downloadStringAsJSON(
-        document.getElementById('save-textarea').value,
+        $('#save-textarea')[0].value,
         'Whiteboard'
     );
 });
 
-saveJPEG.addEventListener('click', function(e) {
+$('#save-jpeg-button').click(function() {
     printCanvas();
 });
 
-loadJSONInput.addEventListener('change', function () {
+$('#load-json-file')[0].addEventListener('change', function () {
     readStringFromJSONFile(
-        loadJSONInput,
-        document.getElementById('load-textarea')
+        $('#load-json-file')[0],
+        $('#load-textarea')[0]
     );
 });

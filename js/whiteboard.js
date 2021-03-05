@@ -1,12 +1,10 @@
 paper.install(window);
-
 window.onload = function() {
 	paper.setup('whiteboard');
 }
-
 let tool = new Tool();
 
-var defaultValues = {
+const defaultValues = {
 	mode: 'draw',
 	color: '#000000',
 	width: 6
@@ -27,16 +25,16 @@ var clickPoint;
 var isBusy = false;
 
 function clearWhiteboard() {
-	for (var i = 0; i < paths.length; i++) {
+	for (let i = 0; i < paths.length; i++) {
 		paths[i].remove();
 	}
 	paths = [];
 }
 
 function readValues() {
-	mode = document.getElementById('mode').value;
-	color = document.getElementById('color').value;
-	width = document.getElementById('width').value;
+	mode = $('#mode')[0].value;
+	color = $('#color')[0].value;
+	width = $('#width')[0].value;
 
 	if (!mode) {
 		mode = defaultValues.mode;
@@ -57,7 +55,7 @@ function setUi() {
 }
 
 function deletePathFromArray(name) {
-	for (var i = 0; i < paths.length; i++) {
+	for (let i = 0; i < paths.length; i++) {
 		if (paths[i].name == name) {
 			paths.splice(i, 1);
 		}
@@ -68,7 +66,7 @@ function loadPaths(text) {
 	clearWhiteboard();
 	
 	try {
-		var loadedPaths = JSON.parse(text);
+		let loadedPaths = JSON.parse(text);
 		while (loadedPaths.length > 0) {
 			paths.push(new Path(loadedPaths.shift()[1]));
 		}
@@ -78,8 +76,8 @@ function loadPaths(text) {
 }
 
 function drawSelectRectangle(firstPoint, secondPoint) {
-	var rectangle = new Rectangle(firstPoint, secondPoint);
-	var rectanglePath = new Path.Rectangle(rectangle);
+	let rectangle = new Rectangle(firstPoint, secondPoint);
+	let rectanglePath = new Path.Rectangle(rectangle);
 	rectanglePath.fillColor = '#eff9ff40';
 	rectanglePath.selected = true;
 	rectanglePath.removeOnDrag().removeOnUp();
@@ -89,9 +87,9 @@ function drawSelectRectangle(firstPoint, secondPoint) {
 function selectBox(event) {
 	var rect = drawSelectRectangle(clickPoint, event.point);
 
-	for (var i = 0; i < paths.length; i++) {
-		var p = paths[i];
-		var intersections = rect.getIntersections(p);
+	for (let i = 0; i < paths.length; i++) {
+		let p = paths[i];
+		let intersections = rect.getIntersections(p);
 		p.selected = (intersections.length > 0);
 		if (rect.bounds.contains(p.interiorPoint)) {
 			p.selected = true;
@@ -110,7 +108,7 @@ tool.onMouseDown = function(event) {
 	} else {
 		isBusy = true;
 		if (mode == 'draw') {
-			var pathName = '#' + pathId++;
+			let pathName = '#' + pathId++;
 			path = new Path({
 				segments: [event.point],
 				strokeColor: color,
@@ -131,7 +129,7 @@ tool.onMouseDrag = function(event) {
 		selectBox(event);
 	} else if (!isBusy && mode == 'draw') {
 		if (Key.isDown('q')) {
-			var rect = new Rectangle(clickPoint, event.point);
+			let rect = new Rectangle(clickPoint, event.point);
 			// 6 being the smoothing amount
 			path = new Path.Rectangle(rect, 6);
 		} else if (Key.isDown('w')) {
@@ -147,7 +145,7 @@ tool.onMouseDrag = function(event) {
 					)
 				});
 			} else {
-				var r = (clickPoint.subtract(event.point)).length / 2;
+				let r = (clickPoint.subtract(event.point)).length / 2;
 				path = new Path.Circle({
 					center: new Point(
 						clickPoint.x - ((clickPoint.x - event.point.x) / 2),
@@ -200,7 +198,10 @@ tool.onMouseUp = function(event) {
 		// Nothing
 	} else if (!isBusy && mode == 'draw') {
 		if (Key.isDown('q') || Key.isDown('w')) {
-			if (path) paths.push(path);
+			if (path) {
+				path.name = '#' + pathId++;
+				paths.push(path);
+			}
 		}
 	} else if (isBusy) {
 		if (mode == 'draw') {
@@ -217,7 +218,7 @@ tool.onMouseUp = function(event) {
 	isBusy = false;
 	clickPoint = null;
 
-	document.getElementById('save-textarea').value = JSON.stringify(paths);
+	$('#save-textarea')[0].value = JSON.stringify(paths);
 }
 
 var isSpecialKeyEnabled = false;
@@ -241,18 +242,17 @@ tool.onKeyDown = function(event) {
 	}
 
 	if (event.key == 'backspace' || event.key == 'delete') {
-		var removedPathNames = [];
-		var i;
-		for (i = 0; i < paths.length; i++) {
+		let removedPathNames = [];
+		for (let i = 0; i < paths.length; i++) {
 			if (paths[i].selected) {
 				removedPathNames.push(paths[i].name);
 				paths[i].remove();
 			}
 		}
-		for (i = 0; i < removedPathNames.length; i++) {
+		for (let i = 0; i < removedPathNames.length; i++) {
 			deletePathFromArray(removedPathNames[i]);
 		}
-		document.getElementById('save-textarea').value = JSON.stringify(paths);
+		$('#save-textarea')[0].value = JSON.stringify(paths);
         // Prevent the key event from bubbling
         return false;
     }
@@ -269,14 +269,13 @@ tool.onKeyUp = function(event) {
 	}
 }
 
-var doneButton = document.getElementById('save-load-done');
-doneButton.addEventListener('click', function(e) {
-	if (document.getElementById('save-textarea').classList.contains('d-none')) {
-		var loadText = document.getElementById('load-textarea').value.trim();
+$('#save-load-done').click(function() {
+	if ($('#save-textarea').hasClass('d-none')) {
+		let loadText = $('#load-textarea')[0].value.trim();
 		if (loadText != '') {
 			loadPaths(loadText);
 		}
-		document.getElementById('load-textarea').value = '';
+		$('#load-textarea')[0].value = '';
 	}
 });
 
