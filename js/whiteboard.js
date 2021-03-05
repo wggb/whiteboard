@@ -1,3 +1,11 @@
+paper.install(window);
+
+window.onload = function() {
+	paper.setup('whiteboard');
+}
+
+let tool = new Tool();
+
 var defaultValues = {
 	mode: 'draw',
 	color: '#000000',
@@ -91,7 +99,7 @@ function selectBox(event) {
 	}
 }
 
-function onMouseDown(event) {
+tool.onMouseDown = function(event) {
 	readValues();
 	
 	project.activeLayer.selected = false;
@@ -118,7 +126,7 @@ function onMouseDown(event) {
 	}
 }
 
-function onMouseDrag(event) {
+tool.onMouseDrag = function(event) {
 	if (!isBusy && Key.isDown('shift')) {
 		selectBox(event);
 	} else if (!isBusy && mode == 'draw') {
@@ -139,7 +147,7 @@ function onMouseDrag(event) {
 					)
 				});
 			} else {
-				var r = (clickPoint - event.point).length / 2;
+				var r = (clickPoint.subtract(event.point)).length / 2;
 				path = new Path.Circle({
 					center: new Point(
 						clickPoint.x - ((clickPoint.x - event.point.x) / 2),
@@ -166,17 +174,17 @@ function onMouseDrag(event) {
 		} else if (mode == 'move') {
 			if (Key.isDown('s')) {
 				if (selectedPath) {
-					selectedPath.position += event.delta;
+					selectedPath.position = selectedPath.position.add(event.delta);
 				}
 			} else {
 				// Find distance between current point and that point
-				view.center += clickPoint - event.point;
+				view.center = view.center.add(clickPoint.subtract(event.point));
 			}
 		}
 	}
 }
 
-function onMouseMove(event) {
+tool.onMouseMove = function(event) {
 	if (mode == 'move' && Key.isDown('s')) {
 		selectedPath = null;
 		project.activeLayer.selected = false;
@@ -187,7 +195,7 @@ function onMouseMove(event) {
 	}
 }
 
-function onMouseUp(event) {
+tool.onMouseUp = function(event) {
 	if (!isBusy && Key.isDown('shift')) {
 		// Nothing
 	} else if (!isBusy && mode == 'draw') {

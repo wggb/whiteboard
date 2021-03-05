@@ -53,7 +53,7 @@ function readStringFromJSONFile(inputElement, outputField) {
 }
 
 function printCanvas() {
-    var rect = new Path.Rectangle({
+    var rect = new paper.Path.Rectangle({
         point: [
             view.center.x - (view.size.width / 2),
             view.center.y - (view.size.height / 2)
