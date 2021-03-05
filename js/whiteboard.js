@@ -1,3 +1,11 @@
+paper.install(window);
+
+window.onload = function() {
+	paper.setup('whiteboard');
+}
+
+var my_tool = new Tool();
+
 var defaultValues = {
 	mode: 'draw',
 	color: '#000000',
@@ -91,7 +99,7 @@ function selectBox(event) {
 	}
 }
 
-function onMouseDown(event) {
+my_tool.onMouseDown = function(event) {
 	readValues();
 	
 	project.activeLayer.selected = false;
@@ -118,7 +126,7 @@ function onMouseDown(event) {
 	}
 }
 
-function onMouseDrag(event) {
+my_tool.onMouseDrag = function(event) {
 	if (!isBusy && Key.isDown('shift')) {
 		selectBox(event);
 	} else if (!isBusy && mode == 'draw') {
@@ -139,7 +147,7 @@ function onMouseDrag(event) {
 					)
 				);
 			} else {
-				var r = (clickPoint - event.point).length;
+				var r = (clickPoint.subtract(event.point)).length;
 				path = new Path.Circle({
 					center: clickPoint,
 					radius: r,
@@ -163,17 +171,17 @@ function onMouseDrag(event) {
 		} else if (mode == 'move') {
 			if (Key.isDown('s')) {
 				if (selectedPath) {
-					selectedPath.position += event.delta;
+					selectedPath.position = selectedPath.position.add(event.delta);
 				}
 			} else {
 				// Find distance between current point and that point
-				view.center += clickPoint - event.point;
+				view.center = view.center.add(clickPoint.subtract(event.point));
 			}
 		}
 	}
 }
 
-function onMouseMove(event) {
+my_tool.onMouseMove = function(event) {
 	if (mode == 'move' && Key.isDown('s')) {
 		selectedPath = null;
 		project.activeLayer.selected = false;
@@ -184,7 +192,7 @@ function onMouseMove(event) {
 	}
 }
 
-function onMouseUp(event) {
+my_tool.onMouseUp = function(event) {
 	if (!isBusy && Key.isDown('shift')) {
 		// Nothing
 	} else if (!isBusy && mode == 'draw') {
@@ -211,7 +219,7 @@ function onMouseUp(event) {
 
 var isSpecialKeyEnabled = false;
 
-tool.onKeyDown = function(event) {
+my_tool.onKeyDown = function(event) {
 	readValues();
 	if (event.key == 'space' || (event.keyCode == 19 || event.keyCode == 91)) {
 		isSpecialKeyEnabled = true;
@@ -247,7 +255,7 @@ tool.onKeyDown = function(event) {
     }
 }
 
-tool.onKeyUp = function(event) {
+my_tool.onKeyUp = function(event) {
 	if (event.key == 's' && (mode == 'move' || selectedPath)) {
 		selectedPath = null;
 		project.activeLayer.selected = false;
