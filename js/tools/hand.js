@@ -34,7 +34,6 @@ events.onMouseMove.push(function(event) { if (hand()) {
 }});
 
 events.onMouseUp.push(function(event) { if (hand()) {
-    if (whiteboard.path.selected) savePaths();
     resetStats();
 }});
 
@@ -43,6 +42,5 @@ events.onKeyUp.push(function(event) {
         (whiteboard.mode == 'move' || whiteboard.path.selected)) {
 		whiteboard.path.selected = null;
 		project.activeLayer.selected = false;
-        if (whiteboard.path.selected) savePaths();
 	}
 });

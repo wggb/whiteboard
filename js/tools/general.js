@@ -69,7 +69,6 @@ events.onKeyDown.push(function(event) {
         removedPathNames.forEach(function(name) {
             deletePathFromArray(name);
         });
-		savePaths();
 
         // Prevent the key event from bubbling
         return false;

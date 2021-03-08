@@ -30,6 +30,7 @@ $('#load-button').click(function() {
 $('#save-button, #save-load').click(function() {
     $('.load-item').addClass('d-none');
     $('.save-item').removeClass('d-none');
+    savePaths();
 });
 
 $('#load-json-button').click(function() {

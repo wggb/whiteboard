@@ -30,7 +30,6 @@ events.onMouseUp.push(function(event) { if (brush()) {
             whiteboard.path.current.simplify(10);
         whiteboard.paths.push(whiteboard.path.current);
         
-        savePaths();
         resetStats();
     }
 }});

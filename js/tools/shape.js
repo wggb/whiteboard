@@ -47,7 +47,6 @@ events.onMouseUp.push(function(event) { if (shape) {
         if (whiteboard.path.current) {
             whiteboard.path.current.name = '#' + whiteboard.path.id++;
             whiteboard.paths.push(whiteboard.path.current);
-            savePaths();
         }
         resetStats();
     }

@@ -19,6 +19,5 @@ events.onMouseDrag.push(function(event) { if (eraser()) {
 }});
 
 events.onMouseUp.push(function(event) { if (eraser()) {
-    savePaths();
     resetStats();
 }})
