@@ -14,9 +14,7 @@ function getDateAsString() {
     return year + '-' + month + '-' + day + ' ' + hours + '-' + minutes + '-' + seconds;
 }
 
-function downloadCanvasAsJPEG(canvasid, filename) {
-    console.log('hi');
-    let canvas = document.getElementById(canvasid);
+function downloadCanvasAsJPEG(canvas, filename) {
     let img = canvas.toDataURL('image/jpeg');
     let element = document.createElement('a');
     element.setAttribute('href', img);
@@ -53,7 +51,7 @@ function readStringFromJSONFile(inputElement, outputField) {
     }
 }
 
-function printCanvas() {
+function printCanvas(canvas) {
     let rect = new paper.Path.Rectangle({
         point: [
             view.center.x - (view.size.width / 2),
@@ -67,25 +65,7 @@ function printCanvas() {
     rect.fillColor = '#ffffff';
 
     setTimeout(function() {
-        downloadCanvasAsJPEG('whiteboard', 'Whiteboard');
+        downloadCanvasAsJPEG(canvas, 'Whiteboard');
         rect.remove();
     }, 500);
 }
-
-$('#save-json-button').click(function() {
-    downloadStringAsJSON(
-        $('#save-textarea')[0].value,
-        'Whiteboard'
-    );
-});
-
-$('#save-jpeg-button').click(function() {
-    printCanvas();
-});
-
-$('#load-json-file')[0].addEventListener('change', function () {
-    readStringFromJSONFile(
-        $('#load-json-file')[0],
-        $('#load-textarea')[0]
-    );
-});

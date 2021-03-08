@@ -8,8 +8,8 @@ function isLoad() {
 }
 
 function chooseButton(id) {
-    ['#move', '#draw', '#del'].forEach(
-        mode => $(mode).removeClass('btn-dark'));
+    ['#move', '#draw', '#del'].forEach(function(mode) {
+        $(mode).removeClass('btn-dark') });
     $('#' + id).addClass('btn-dark');
     $('#mode')[0].value = id;
 }
@@ -34,6 +34,34 @@ $('#save-button, #save-load').click(function() {
 
 $('#load-json-button').click(function() {
     $('#load-json-file').click();
+});
+
+$('#save-json-button').click(function() {
+    downloadStringAsJSON(
+        $('#save-textarea')[0].value,
+        'Whiteboard'
+    );
+});
+
+$('#save-jpeg-button').click(function() {
+    printCanvas($('#whiteboard')[0]);
+});
+
+$('#save-load-done').click(function() {
+    if ($('#save-textarea').hasClass('d-none')) {
+        let loadText = $('#load-textarea')[0].value.trim();
+		if (loadText != '') {
+            loadPaths(loadText);
+		}
+		$('#load-textarea')[0].value = '';
+	}
+});
+
+$('#load-json-file').change(function () {
+    readStringFromJSONFile(
+        $('#load-json-file')[0],
+        $('#load-textarea')[0]
+    );
 });
 
 $('#draw').addClass('btn-dark');

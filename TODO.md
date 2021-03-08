@@ -1,6 +1,5 @@
 # TODO
 
-- [ ] Refactor the code
 - [ ] Add text input
 - [ ] Add help page/modal
 - [ ] Add constructor functions
@@ -10,5 +9,6 @@
 
 # 
 
+- [x] Refactor the code (?)
 - [x] Have array of selected paths => http://paperjs.org/reference/project/#selecteditems
 - [x] Create TODO.md
