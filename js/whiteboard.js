@@ -54,8 +54,6 @@ function readValues() {
 		whiteboard.width = Number(whiteboard.width);
 		if (whiteboard.width < 1 || isNaN(whiteboard.width)) {
 			whiteboard.width = defaultValues.width;
-			console.warn('Couldn\'t read width. Using default: '
-				+ defaultValues.width.toString());
 		}
 	} catch (error) {
 		whiteboard.width = defaultValues.width;

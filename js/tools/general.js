@@ -21,6 +21,7 @@ function selectBox(event) {
 }
 
 events.onMouseDown.push(function(event) {
+    blurSidebar();
     readValues();
     selectActiveLayer(false);
 

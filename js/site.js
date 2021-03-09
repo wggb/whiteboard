@@ -18,6 +18,10 @@ function chooseButton(id) {
     }
 }
 
+function blurSidebar() {
+    $('.sticky-sidebar *:not(.mode-btn)').blur();
+}
+
 if (!isCanvasSupported()) {
     alert("Canvas is not supported by your browser.");
 }
@@ -60,6 +64,24 @@ $('#save-load-done').click(function() {
 		}
 		$('#load-textarea')[0].value = '';
 	}
+});
+
+$('#width').on('input', function() {
+    try {
+		let width = Number($(this)[0].value);
+		if
+            (isNaN(width)) $(this)[0].value = whiteboard.width;
+        else if
+            (width < 0) $(this)[0].value = 0;
+		else if
+            (width > 9999) $(this)[0].value = 9999;
+	} catch (error) {
+		$(this)[0].value = whiteboard.width;
+	}
+});
+
+$('#width').change(function () {
+    if ($(this)[0].value < 1) $(this)[0].value = 1;
 });
 
 $('#load-json-file').change(function () {
