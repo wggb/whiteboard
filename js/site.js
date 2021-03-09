@@ -8,19 +8,23 @@ function isLoad() {
 }
 
 function chooseButton(id) {
-    ['#move', '#draw', '#del'].forEach(function(mode) {
-        $(mode).removeClass('btn-dark') });
-    $('#' + id).addClass('btn-dark');
-    $('#mode')[0].value = id;
+    if (!$('#save-load-modal').hasClass('show')) {
+        $('.sticky-sidebar button:not(.mode-btn)').blur();
+        $('.sticky-sidebar input:not(.mode-btn)').blur();
+        ['#move', '#draw', '#del'].forEach(function(mode) {
+            $(mode).removeClass('btn-dark'); });
+        $('#' + id).addClass('btn-dark');
+        $('#mode')[0].value = id;
+    }
 }
 
 if (!isCanvasSupported()) {
     alert("Canvas is not supported by your browser.");
 }
 
-$('#draw').click(function() { chooseButton('draw') });
-$('#del').click(function() { chooseButton('del') });
-$('#move').click(function() { chooseButton('move') });
+$('#draw').click(function() { chooseButton('draw'); });
+$('#del').click(function() { chooseButton('del'); });
+$('#move').click(function() { chooseButton('move'); });
 
 $('#load-button').click(function() {
     $('.save-item').addClass('d-none');
