@@ -20,6 +20,9 @@ var whiteboard = {
         current: null,
         selected: null
     },
+	text: {
+		current: null
+	},
     click: {
         point: null
     },
@@ -75,10 +78,13 @@ function loadPaths(text) {
 	clearWhiteboard();
 	
 	try {
-		let loadedPaths = JSON.parse(text);
-		while (loadedPaths.length > 0)
-			whiteboard.paths.push(
-                new Path(loadedPaths.shift()[1]));
+		JSON.parse(text).forEach(function(path) {
+			let mode = path[0].trim().toLowerCase();
+			if (mode == 'path')
+				whiteboard.paths.push(new Path(path[1]));
+			else if (mode == 'pointtext')
+				whiteboard.paths.push(new PointText(path[1]));
+		});
 	} catch (error) {
 		alert('Text can\'t be parsed.');
 	}
@@ -94,8 +100,15 @@ function selectActiveLayer(value) {
 }
 
 function resetStats() {
+	if (whiteboard.path.current)
+		whiteboard.path.current.selected = false;
+	if (whiteboard.text.current) {
+		whiteboard.text.current.selected = false;
+		pushCurrentText();
+	}
 	whiteboard.isBusy = false;
     whiteboard.path.current = null;
+    whiteboard.text.current = null;
     whiteboard.click.point = null;
 }
 

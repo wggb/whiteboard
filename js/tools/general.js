@@ -52,9 +52,10 @@ events.onKeyDown.push(function(event) {
         let keyMapper = {
 			'1': 'move',
 			'2': 'draw',
-			'3': 'del'
+			'3': 'del',
+            '4': 'text'
 		};
-		if (event.key >= '1' && event.key <= '3')
+		if (event.key >= '1' && event.key <= '4')
 			whiteboard.mode = keyMapper[event.key];
 		setUI();
     }
@@ -81,6 +82,8 @@ events.onKeyUp.push(function(event) {
         event.keyCode == 19 ||
         event.keyCode == 91) {
 		isSpecialKeyEnabled = false;
-		setTimeout(function() { setUI(); }, 0);
+        if (!whiteboard.isBusy) {
+		    setTimeout(function() { setUI(); }, 0);
+        }
 	}
 });

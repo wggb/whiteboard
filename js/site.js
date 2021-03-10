@@ -8,11 +8,12 @@ function isLoad() {
 }
 
 function chooseButton(id) {
+    resetStats();
     if (!$('#save-load-modal').hasClass('show')) {
         $('.sticky-sidebar button:not(.mode-btn)').blur();
         $('.sticky-sidebar input:not(.mode-btn)').blur();
-        ['#move', '#draw', '#del'].forEach(function(mode) {
-            $(mode).removeClass('btn-dark'); });
+        ['#move', '#draw', '#del', '#text'].forEach(
+            function(mode) { $(mode).removeClass('btn-dark'); });
         $('#' + id).addClass('btn-dark');
         $('#mode')[0].value = id;
     }
@@ -29,6 +30,7 @@ if (!isCanvasSupported()) {
 $('#draw').click(function() { chooseButton('draw'); });
 $('#del').click(function() { chooseButton('del'); });
 $('#move').click(function() { chooseButton('move'); });
+$('#text').click(function() { chooseButton('text'); });
 
 $('#load-button').click(function() {
     $('.save-item').addClass('d-none');
@@ -38,6 +40,7 @@ $('#load-button').click(function() {
 $('#save-button, #save-load').click(function() {
     $('.load-item').addClass('d-none');
     $('.save-item').removeClass('d-none');
+    resetStats();
     savePaths();
 });
 
