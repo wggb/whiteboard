@@ -16,8 +16,16 @@ events.onMouseDrag.push(function(event) { if (hand()) {
             if (selected)
                selected.position = selected.position.add(event.delta);
         } else {
-            view.center = view.center.add(
-                whiteboard.click.point.subtract(event.point));
+            if (Key.isDown('r')) {
+                view.center = view.center.add(
+                    new Point(0, whiteboard.click.point.y - event.point.y));
+            } else if (Key.isDown('e')) {
+                view.center = view.center.add(
+                    new Point(whiteboard.click.point.x - event.point.x, 0));
+            } else {
+                view.center = view.center.add(
+                    whiteboard.click.point.subtract(event.point));
+            }
         }
     }
 }});
