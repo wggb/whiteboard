@@ -31,8 +31,10 @@ function removeTextElement(id) {
 }
 
 function pushCurrentText() {
-    whiteboard.text.current.name = '#' + whiteboard.path.id++;
-    whiteboard.paths.push(whiteboard.text.current);
+    if (whiteboard.text.current.content.trim() != '') {
+        whiteboard.text.current.name = '#' + whiteboard.path.id++;
+        whiteboard.paths.push(whiteboard.text.current);
+    }
 }
 
 events.onMouseDown.push(function(event) { if (text()) {
