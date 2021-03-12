@@ -35,21 +35,22 @@ events.onMouseDrag.push(function(event) { if (shape()) {
         }
     } else if (Key.isDown('a')) {
         whiteboard.path.current = new Path({
+            segments: [clickPoint],
             strokeCap: 'round'
         });
         if (Key.isDown('s') && Key.isDown('d')) {
             let d = Math.min((event.point.x - clickPoint.x),
                 (event.point.y - clickPoint.y));
-            whiteboard.path.current.segments = [clickPoint,
-                new Point(clickPoint.x + d, clickPoint.y + d)];
+            whiteboard.path.current.add(
+                new Point(clickPoint.x + d, clickPoint.y + d));
         } else if (Key.isDown('s')) {
-            whiteboard.path.current.segments = [clickPoint,
-                new Point(event.point.x, clickPoint.y)];
+            whiteboard.path.current.add(
+                new Point(event.point.x, clickPoint.y));
         } else if (Key.isDown('d')) {
-            whiteboard.path.current.segments = [clickPoint,
-                new Point(clickPoint.x, event.point.y)];
+            whiteboard.path.current.add(
+                new Point(clickPoint.x, event.point.y));
         } else {
-            whiteboard.path.current.segments = [clickPoint, event.point];
+            whiteboard.path.current.add(event.point);
         }
     }
 
@@ -74,7 +75,6 @@ events.onKeyUp.push(function(event) { if (shape()) {
     if (event.key == 'q' || event.key == 'w' || event.key == 'a') {
         if (whiteboard.path.current) {
             whiteboard.path.current.remove();
-            resetStats();
         }
     }
 }});
