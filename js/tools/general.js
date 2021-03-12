@@ -28,8 +28,8 @@ events.onMouseDown.push(function(event) {
     whiteboard.click.point = event.point;
     whiteboard.isBusyHotKey = (
         Key.isDown('shift') ||
-        Key.isDown('q') ||
-        Key.isDown('w')
+        (whiteboard.mode == 'draw' &&
+            (Key.isDown('q') || Key.isDown('w')))
     );
 });
 
