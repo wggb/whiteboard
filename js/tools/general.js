@@ -26,10 +26,10 @@ events.onMouseDown.push(function(event) {
     selectActiveLayer(false);
 
     whiteboard.click.point = event.point;
-    whiteboard.isBusyHotKey = (
+    if (!whiteboard.isBusy) whiteboard.isBusyHotKey = (
         Key.isDown('shift') ||
         (whiteboard.mode == 'draw' &&
-            (Key.isDown('q') || Key.isDown('w')))
+            (Key.isDown('q') || Key.isDown('w') || Key.isDown('a')))
     );
 });
 

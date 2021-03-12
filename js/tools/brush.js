@@ -20,8 +20,7 @@ events.onMouseDown.push(function(event) { if (brush()) {
 }});
 
 events.onMouseDrag.push(function(event) { if (brush()) {
-    // if (whiteboard.isBusy)
-    whiteboard.path.current.add(event.point);
+    if (whiteboard.isBusy) whiteboard.path.current.add(event.point);
 }});
 
 events.onMouseUp.push(function(event) { if (brush()) {
