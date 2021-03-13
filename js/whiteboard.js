@@ -46,9 +46,9 @@ function clearWhiteboard() {
 }
 
 function readValues() {
-    whiteboard.mode = $('#mode')[0].value;
-	whiteboard.color = $('#color')[0].value;
-	whiteboard.width = $('#width')[0].value;
+    whiteboard.mode = $('#mode').val();
+	whiteboard.color = $('#color').val();
+	whiteboard.width = $('#width').val();
 
 	if (!whiteboard.mode)
         whiteboard.mode = defaultValues.mode;
@@ -85,14 +85,11 @@ function loadPaths(text) {
 			else if (mode == 'pointtext')
 				whiteboard.paths.push(new PointText(path[1]));
 		});
-	} catch (error) {
-		alert('Text can\'t be parsed.');
-	}
+	} catch (error) { alert('Text can\'t be parsed.'); }
 }
 
 function savePaths() {
-	$('#save-textarea')[0].value = JSON.stringify(
-		whiteboard.paths);
+	$('#save-textarea')[0].value = JSON.stringify(whiteboard.paths);
 }
 
 function selectActiveLayer(value) {

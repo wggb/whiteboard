@@ -50,7 +50,7 @@ $('#load-json-button').click(function() {
 
 $('#save-json-button').click(function() {
     downloadStringAsJSON(
-        $('#save-textarea')[0].value,
+        $('#save-textarea').val(),
         'Whiteboard'
     );
 });
@@ -61,7 +61,7 @@ $('#save-jpeg-button').click(function() {
 
 $('#save-load-done').click(function() {
     if ($('#save-textarea').hasClass('d-none')) {
-        let loadText = $('#load-textarea')[0].value.trim();
+        let loadText = $('#load-textarea').val().trim();
 		if (loadText != '') {
             loadPaths(loadText);
 		}
@@ -71,7 +71,7 @@ $('#save-load-done').click(function() {
 
 $('#width').on('input', function() {
     try {
-		let width = Number($(this)[0].value);
+		let width = Number($(this).val());
 		if
             (isNaN(width)) $(this)[0].value = whiteboard.width;
         else if
@@ -84,7 +84,7 @@ $('#width').on('input', function() {
 });
 
 $('#width').change(function () {
-    if ($(this)[0].value < 1) $(this)[0].value = 1;
+    if ($(this).val() < 1) $(this)[0].value = 1;
 });
 
 $('#load-json-file').change(function () {

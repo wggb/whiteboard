@@ -73,8 +73,6 @@ events.onMouseUp.push(function(event) { if (shape()) {
 
 events.onKeyUp.push(function(event) { if (shape()) {
     if (event.key == 'q' || event.key == 'w' || event.key == 'a') {
-        if (whiteboard.path.current) {
-            whiteboard.path.current.remove();
-        }
+        if (whiteboard.path.current) whiteboard.path.current.remove();
     }
 }});

@@ -14,9 +14,8 @@ function selectBox(event) {
     whiteboard.paths.forEach(function(path) {
         let intersections = rect.getIntersections(path);
 		path.selected = (intersections.length > 0);
-		if (rect.bounds.contains(path.interiorPoint)) {
+		if (rect.bounds.contains(path.interiorPoint))
 			path.selected = true;
-		}
     });
 }
 
@@ -82,8 +81,7 @@ events.onKeyUp.push(function(event) {
         event.keyCode == 19 ||
         event.keyCode == 91) {
 		isSpecialKeyEnabled = false;
-        if (!whiteboard.isBusy) {
-		    setTimeout(function() { setUI(); }, 0);
-        }
+        if (!whiteboard.isBusy)
+            setTimeout(function() { setUI(); }, 0);
 	}
 });

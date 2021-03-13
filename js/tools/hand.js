@@ -47,7 +47,7 @@ events.onMouseUp.push(function(event) { if (hand()) {
 
 events.onKeyUp.push(function(event) {
     if (event.key == 's' &&
-        (whiteboard.mode == 'move' || whiteboard.path.selected)) {
+       (whiteboard.mode == 'move' || whiteboard.path.selected)) {
 		whiteboard.path.selected = null;
 		project.activeLayer.selected = false;
 	}
