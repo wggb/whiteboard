@@ -6,6 +6,9 @@
 - [ ] Add right handed and left handed mode (?)
 - [ ] Simplify the UI (color, width, etc.)
 - [ ] Create CHANGELOG.md
+- [ ] Swipey menu
+- [ ] Simplification while writing
+- [ ] ZOOM
 
 # 
 
