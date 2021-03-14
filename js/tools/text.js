@@ -7,7 +7,7 @@ function text() {
 
 function readTextElement() {
     if (whiteboard.isBusy) whiteboard.text.current.content =
-        $('#whiteboard-text-element')[0].value;
+        $('#whiteboard-text-element').val();
 }
 
 function createTextElement(id) {
