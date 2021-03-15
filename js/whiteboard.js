@@ -23,6 +23,9 @@ var whiteboard = {
 	text: {
 		current: null
 	},
+	mouse: {
+		point: null
+	},
     click: {
         point: null
     },
@@ -107,6 +110,20 @@ function resetStats() {
     whiteboard.path.current = null;
     whiteboard.text.current = null;
     whiteboard.click.point = null;
+}
+
+function zoomWhiteboard(rate, multiply) {
+	let minValue = 0.4, maxValue = 16;
+	let zoomValue = view.zoom * rate;
+	multiply = (typeof multiply != 'undefined') ? multiply : 1;
+	if (zoomValue >= minValue && zoomValue <= maxValue &&
+		((view.zoom < maxValue && rate > 1) ||
+		(view.zoom > minValue && rate < 1))) {
+			let direction = (rate < 1) ? -1 : 1;
+			view.center = view.center.add(whiteboard.mouse.point.subtract(
+				view.center).divide(rate * direction * multiply));
+			view.zoom = zoomValue;
+	}
 }
 
 tool.onMouseDown = function(event) {

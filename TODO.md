@@ -7,10 +7,11 @@
 - [ ] Create CHANGELOG.md
 - [ ] Swipey menu
 - [ ] Simplification while writing
-- [ ] ZOOM
+- [ ] Rotate paths
 
 # 
 
+- [x] ZOOM
 - [x] Add text input
 - [x] Refactor the code (?)
 - [x] Have array of selected paths => http://paperjs.org/reference/project/#selecteditems

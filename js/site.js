@@ -94,4 +94,9 @@ $('#load-json-file').change(function () {
     );
 });
 
+$('#whiteboard')[0].addEventListener('wheel', function(event) {
+    if (event.deltaY < 0) zoomWhiteboard(1.2, 5);   // Why 5?
+    else if (event.deltaY > 0) zoomWhiteboard(0.8, 5);
+});
+
 $('#draw').addClass('btn-dark');
