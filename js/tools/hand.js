@@ -13,19 +13,26 @@ events.onMouseDrag.push(function(event) { if (hand()) {
     if (whiteboard.isBusy) {
         if (Key.isDown('s')) {
             let selected = whiteboard.path.selected;
-            if (selected)
-               selected.position = selected.position.add(event.delta);
-        } else {
-            if (Key.isDown('w')) {
-                view.center = view.center.add(
-                    new Point(0, whiteboard.click.point.y - event.point.y));
-            } else if (Key.isDown('q')) {
-                view.center = view.center.add(
-                    new Point(whiteboard.click.point.x - event.point.x, 0));
-            } else {
-                view.center = view.center.add(
-                    whiteboard.click.point.subtract(event.point));
+            if (selected) {
+                if (Key.isDown('w')) {
+                    selected.position = selected.position.add(
+                        new Point(0, event.delta.y));
+                } else if (Key.isDown('q')) {
+                    selected.position = selected.position.add(
+                        new Point(event.delta.x, 0));
+                } else {
+                    selected.position = selected.position.add(event.delta);
+                }
             }
+        } else if (Key.isDown('w')) {
+                view.center = view.center.add(
+                new Point(0, whiteboard.click.point.y - event.point.y));
+        } else if (Key.isDown('q')) {
+            view.center = view.center.add(
+                new Point(whiteboard.click.point.x - event.point.x, 0));
+        } else {
+            view.center = view.center.add(
+                whiteboard.click.point.subtract(event.point));
         }
     }
 }});
