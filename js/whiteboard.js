@@ -120,8 +120,11 @@ function zoomWhiteboard(rate, multiply) {
 		((view.zoom < maxValue && rate > 1) ||
 		(view.zoom > minValue && rate < 1))) {
 			let direction = (rate < 1) ? -1 : 1;
-			view.center = view.center.add(whiteboard.mouse.point.subtract(
-				view.center).divide(rate * direction * multiply));
+			if (multiply > 0)
+				view.center = view.center.add(
+					whiteboard.mouse.point.subtract(
+						view.center).divide(rate * direction * multiply)
+				);
 			view.zoom = zoomValue;
 	}
 }

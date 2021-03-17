@@ -69,6 +69,14 @@ $('#save-load-done').click(function() {
 	}
 });
 
+$('#zoom-in').click(function() {
+    zoomWhiteboard(1.2, 0);
+});
+
+$('#zoom-out').click(function() {
+    zoomWhiteboard(0.8, 0);
+});
+
 $('#width').on('input', function() {
     try {
 		let width = Number($(this).val());
