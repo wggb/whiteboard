@@ -1,3 +1,5 @@
+var onClickMode = null
+
 function isCanvasSupported() {
     var elem = document.createElement('canvas');
     return !!(elem.getContext && elem.getContext('2d'));
@@ -67,6 +69,19 @@ $('#save-load-done').click(function() {
 		}
 		$('#load-textarea')[0].value = '';
 	}
+});
+
+$('#whiteboard').on('mousedown', function(event) {
+    onClickMode = $('#mode').val();
+    if (event.which == 2){
+        event.preventDefault();
+        chooseButton('move');
+    }
+});
+
+$('#whiteboard').on('mouseup', function(event) {
+    if (event.which == 2) chooseButton(onClickMode);
+    onClickMode = null;
 });
 
 $('#width').on('input', function() {
