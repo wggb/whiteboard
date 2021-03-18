@@ -71,16 +71,21 @@ $('#save-load-done').click(function() {
 	}
 });
 
+$('#whiteboard').bind('contextmenu', function() {
+    return false;
+});
+
 $('#whiteboard').on('mousedown', function(event) {
     onClickMode = $('#mode').val();
-    if (event.which == 2){
+    if (event.which == 2 || event.which == 3){
         event.preventDefault();
-        chooseButton('move');
+        if (event.which == 2) chooseButton('move');
+        else if (event.which == 3) chooseButton('del');
     }
 });
 
 $('#whiteboard').on('mouseup', function(event) {
-    if (event.which == 2) chooseButton(onClickMode);
+    if (event.which == 2 || event.which == 3) chooseButton(onClickMode);
     onClickMode = null;
 });
 
