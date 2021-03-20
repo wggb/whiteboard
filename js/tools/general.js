@@ -38,6 +38,10 @@ events.onMouseDrag.push(function(event) {
     }
 });
 
+events.onMouseMove.push(function(event) {
+    whiteboard.mouse.point = event.point;
+});
+
 events.onKeyDown.push(function(event) {
     readValues();
     
