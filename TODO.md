@@ -6,12 +6,12 @@
 - [ ] Change and Simplify the UI
 - [ ] Create CHANGELOG.md
 - [ ] Swipey menu
-- [ ] Simplification while writing
+- [ ] Simplification while writing/drawing
 - [ ] Rotate paths
-- [ ] Zoom for mobile devices
 
 # 
 
+- [x] Zoom for mobile devices
 - [x] ZOOM
 - [x] Add text input
 - [x] Refactor the code (?)
