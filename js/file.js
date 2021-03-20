@@ -41,7 +41,7 @@ function readStringFromJSONFile(inputElement, outputField) {
 
     if (file.type.match(textType)) {
         let reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             outputField.value = reader.result;
         }
         reader.readAsText(file);
@@ -64,7 +64,7 @@ function printCanvas(canvas) {
     rect.sendToBack();
     rect.fillColor = '#ffffff';
 
-    setTimeout(function() {
+    setTimeout(function () {
         downloadCanvasAsJPEG(canvas, 'Whiteboard');
         rect.remove();
     }, 500);

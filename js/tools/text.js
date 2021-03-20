@@ -37,31 +37,35 @@ function pushCurrentText() {
     }
 }
 
-events.onMouseDown.push(function(event) { if (text()) {
-    if (whiteboard.text.current) pushCurrentText();
-    whiteboard.isBusy = true;
-    whiteboard.text.current = new PointText({
-        content: '',
-        point: whiteboard.click.point,
-        fillColor: whiteboard.color,
-        fontSize: whiteboard.width + 16,    // TODO: Change this
-        selected: true
-    });
-    createTextElement('whiteboard-text-element').focus();
-}});
+events.onMouseDown.push(function (event) {
+    if (text()) {
+        if (whiteboard.text.current) pushCurrentText();
+        whiteboard.isBusy = true;
+        whiteboard.text.current = new PointText({
+            content: '',
+            point: whiteboard.click.point,
+            fillColor: whiteboard.color,
+            fontSize: whiteboard.width + 16,    // TODO: Change this
+            selected: true
+        });
+        createTextElement('whiteboard-text-element').focus();
+    }
+});
 
 let shift = false;
-events.onKeyDown.push(function(event) { if (text()) {
-    if (event.key == 'shift') shift = true;
-    if (whiteboard.isBusy && event.key == 'enter') {
-        if (!shift) {
-            whiteboard.text.current.selected = false;
-            removeTextElement('whiteboard-text-element');
-            resetStats();
+events.onKeyDown.push(function (event) {
+    if (text()) {
+        if (event.key == 'shift') shift = true;
+        if (whiteboard.isBusy && event.key == 'enter') {
+            if (!shift) {
+                whiteboard.text.current.selected = false;
+                removeTextElement('whiteboard-text-element');
+                resetStats();
+            }
         }
     }
-}});
+});
 
-events.onKeyUp.push(function(event) {
+events.onKeyUp.push(function (event) {
     if (event.key == 'shift') shift = false;
 });

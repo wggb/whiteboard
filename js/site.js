@@ -24,7 +24,7 @@ function chooseButton(id) {
         $('.sticky-sidebar button:not(.mode-btn)').blur();
         $('.sticky-sidebar input:not(.mode-btn)').blur();
         ['#move', '#draw', '#del', '#text'].forEach(
-            function(mode) { $(mode).removeClass('btn-dark'); });
+            function (mode) { $(mode).removeClass('btn-dark'); });
         $('#' + id).addClass('btn-dark');
         $('#mode')[0].value = id;
     }
@@ -38,86 +38,86 @@ if (!isCanvasSupported()) {
     alert("Canvas is not supported by your browser.");
 }
 
-$('#draw').click(function() { chooseButton('draw'); });
-$('#del').click(function() { chooseButton('del'); });
-$('#move').click(function() { chooseButton('move'); });
-$('#text').click(function() { chooseButton('text'); });
+$('#draw').click(function () { chooseButton('draw'); });
+$('#del').click(function () { chooseButton('del'); });
+$('#move').click(function () { chooseButton('move'); });
+$('#text').click(function () { chooseButton('text'); });
 
-$('#load-button').click(function() {
+$('#load-button').click(function () {
     $('.save-item').addClass('d-none');
     $('.load-item').removeClass('d-none');
 });
 
-$('#save-button, #save-load').click(function() {
+$('#save-button, #save-load').click(function () {
     $('.load-item').addClass('d-none');
     $('.save-item').removeClass('d-none');
     resetStats();
     savePaths();
 });
 
-$('#load-json-button').click(function() {
+$('#load-json-button').click(function () {
     $('#load-json-file').click();
 });
 
-$('#save-json-button').click(function() {
+$('#save-json-button').click(function () {
     downloadStringAsJSON(
         $('#save-textarea').val(),
         'Whiteboard'
     );
 });
 
-$('#save-jpeg-button').click(function() {
+$('#save-jpeg-button').click(function () {
     printCanvas($('#whiteboard')[0]);
 });
 
-$('#save-load-done').click(function() {
+$('#save-load-done').click(function () {
     if ($('#save-textarea').hasClass('d-none')) {
         let loadText = $('#load-textarea').val().trim();
-		if (loadText != '') {
+        if (loadText != '') {
             loadPaths(loadText);
-		}
-		$('#load-textarea')[0].value = '';
-	}
+        }
+        $('#load-textarea')[0].value = '';
+    }
 });
 
-$('#zoom-in').click(function() {
+$('#zoom-in').click(function () {
     zoomWhiteboard(1.2);
 });
 
-$('#zoom-out').click(function() {
+$('#zoom-out').click(function () {
     zoomWhiteboard(0.8);
 });
 
-$('#whiteboard').bind('contextmenu', function() {
+$('#whiteboard').bind('contextmenu', function () {
     return false;
 });
 
-$('#whiteboard').on('mousedown', function(event) {
+$('#whiteboard').on('mousedown', function (event) {
     onClickMode = $('#mode').val();
-    if (event.which == 2 || event.which == 3){
+    if (event.which == 2 || event.which == 3) {
         event.preventDefault();
         if (event.which == 2) chooseButton('move');
         else if (event.which == 3) chooseButton('del');
     }
 });
 
-$('#whiteboard').on('mouseup', function(event) {
+$('#whiteboard').on('mouseup', function (event) {
     if (event.which == 2 || event.which == 3) chooseButton(onClickMode);
     onClickMode = null;
 });
 
-$('#width').on('input', function() {
+$('#width').on('input', function () {
     try {
-		let width = Number($(this).val());
-		if
+        let width = Number($(this).val());
+        if
             (isNaN(width)) $(this)[0].value = whiteboard.width;
         else if
             (width < 0) $(this)[0].value = 0;
-		else if
+        else if
             (width > 9999) $(this)[0].value = 9999;
-	} catch (error) {
-		$(this)[0].value = whiteboard.width;
-	}
+    } catch (error) {
+        $(this)[0].value = whiteboard.width;
+    }
 });
 
 $('#width').change(function () {
@@ -131,7 +131,7 @@ $('#load-json-file').change(function () {
     );
 });
 
-$('#whiteboard')[0].addEventListener('wheel', function(event) {
+$('#whiteboard')[0].addEventListener('wheel', function (event) {
     if (event.deltaY < 0) zoomWhiteboard(1.2, 5);   // Why 5?
     else if (event.deltaY > 0) zoomWhiteboard(0.8, 5);
 });
