@@ -115,7 +115,7 @@ function resetStats() {
 function zoomWhiteboard(rate, multiply) {
 	let minValue = 0.4, maxValue = 16;
 	let zoomValue = view.zoom * rate;
-	multiply = (typeof multiply != 'undefined') ? multiply : 1;
+	multiply = (typeof multiply != 'undefined') ? multiply : 0;
 	if (zoomValue >= minValue && zoomValue <= maxValue &&
 		((view.zoom < maxValue && rate > 1) ||
 		(view.zoom > minValue && rate < 1))) {
