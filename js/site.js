@@ -96,25 +96,32 @@ $('#whiteboard').on('mousedown', function (event) {
     onClickMode = $('#mode').val();
     if (event.which == 2 || event.which == 3) {
         event.preventDefault();
-        if (event.which == 2) chooseButton('move');
-        else if (event.which == 3) chooseButton('del');
+        if (!whiteboard.isBusy) {
+            if (event.which == 2) chooseButton('move');
+            else if (event.which == 3) chooseButton('del');
+        }
     }
 });
 
 $('#whiteboard').on('mouseup', function (event) {
-    if (event.which == 2 || event.which == 3) chooseButton(onClickMode);
+    if (event.which == 2 || event.which == 3) {
+        if (!onClickMode)
+            chooseButton(defaultValues.mode);
+        else if (whiteboard.mode != onClickMode)
+            chooseButton(onClickMode);
+    }
     onClickMode = null;
 });
 
 $('#width').on('input', function () {
     try {
         let width = Number($(this).val());
-        if
-            (isNaN(width)) $(this)[0].value = whiteboard.width;
-        else if
-            (width < 0) $(this)[0].value = 0;
-        else if
-            (width > 9999) $(this)[0].value = 9999;
+        if (isNaN(width))
+            $(this)[0].value = whiteboard.width;
+        else if (width < 0)
+            $(this)[0].value = 0;
+        else if (width > 9999)
+            $(this)[0].value = 9999;
     } catch (error) {
         $(this)[0].value = whiteboard.width;
     }
