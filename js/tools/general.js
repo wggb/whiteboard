@@ -32,7 +32,9 @@ function selectBox(event) {
 events.onMouseDown.push(function (event) {
     blurSidebar();
     readValues();
-    selectActiveLayer(false);
+
+    if (whiteboard.mode != 'move' || !Key.isDown('s'))
+        selectActiveLayer(false);
 
     whiteboard.click.point = event.point;
     if (!whiteboard.isBusy) whiteboard.isBusyHotKey = (

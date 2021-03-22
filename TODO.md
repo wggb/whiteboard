@@ -8,6 +8,7 @@
 - [ ] Swipey menu
 - [ ] Simplification while writing/drawing
 - [ ] Rotate paths
+- [ ] Change selected item width and color
 
 # 
 

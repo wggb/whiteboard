@@ -1,3 +1,5 @@
+let currentSelectedPath = null;
+
 function hand() {
     return (
         !whiteboard.isBusyHotKey &&
@@ -15,8 +17,7 @@ events.onMouseDrag.push(function (event) {
     if (hand()) {
         if (whiteboard.isBusy) {
             if (Key.isDown('s')) {
-                let selected = whiteboard.path.selected;
-                if (selected) {
+                getSelectedItems().forEach(function (selected) {
                     if (Key.isDown('w')) {
                         selected.position = selected.position.add(
                             new Point(0, event.delta.y));
@@ -26,7 +27,7 @@ events.onMouseDrag.push(function (event) {
                     } else {
                         selected.position = selected.position.add(event.delta);
                     }
-                }
+                });
             } else if (Key.isDown('w')) {
                 view.center = view.center.add(
                     new Point(0, whiteboard.click.point.y - event.point.y));
@@ -44,10 +45,11 @@ events.onMouseDrag.push(function (event) {
 events.onMouseMove.push(function (event) {
     if (hand()) {
         if (Key.isDown('s')) {
-            whiteboard.path.selected = null;
-            project.activeLayer.selected = false;
-            if (event.item) {
-                whiteboard.path.selected = event.item;
+            if (currentSelectedPath)
+                currentSelectedPath.selected = false;
+            currentSelectedPath = null;
+            if (event.item && !event.item.selected) {
+                currentSelectedPath = event.item;
                 event.item.selected = true;
             }
         }
@@ -56,14 +58,13 @@ events.onMouseMove.push(function (event) {
 
 events.onMouseUp.push(function (event) {
     if (hand()) {
-        resetStats();
+        if (!Key.isDown('s')) resetStats();
     }
 });
 
 events.onKeyUp.push(function (event) {
-    if (event.key == 's' &&
-        (whiteboard.mode == 'move' || whiteboard.path.selected)) {
-        whiteboard.path.selected = null;
-        project.activeLayer.selected = false;
+    if (event.key == 's' && currentSelectedPath) {
+        currentSelectedPath.selected = false;
+        currentSelectedPath = null;
     }
 });

@@ -17,8 +17,7 @@ var whiteboard = {
     paths: [],
     path: {
         id: 0,
-        current: null,
-        selected: null
+        current: null
     },
     text: {
         current: null
@@ -90,6 +89,14 @@ function loadPaths(text) {
                 whiteboard.paths.push(new PointText(path[1]));
         });
     } catch (error) { alert('Text can\'t be parsed.'); }
+}
+
+function getSelectedItems() {
+    let selectedItems = [];
+    whiteboard.paths.forEach(function (item) {
+        if (item.selected) selectedItems.push(item);
+    });
+    return selectedItems;
 }
 
 function savePaths() {
