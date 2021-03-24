@@ -7,7 +7,9 @@ let tool = new Tool();
 const defaultValues = {
     mode: 'draw',
     color: '#000000',
-    width: 6
+    width: 6,
+    minWidth: 1,
+    maxWidth: 9999
 }
 
 var whiteboard = {

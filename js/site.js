@@ -120,15 +120,16 @@ $('#width').on('input', function () {
             $(this)[0].value = whiteboard.width;
         else if (width < 0)
             $(this)[0].value = 0;
-        else if (width > 9999)
-            $(this)[0].value = 9999;
+        else if (width > defaultValues.maxWidth)
+            $(this)[0].value = defaultValues.maxWidth;
     } catch (error) {
         $(this)[0].value = whiteboard.width;
     }
 });
 
 $('#width').change(function () {
-    if ($(this).val() < 1) $(this)[0].value = 1;
+    if ($(this).val() <defaultValues.minWidth)
+        $(this)[0].value = defaultValues.minWidth;
 });
 
 $('#load-json-file').change(function () {
