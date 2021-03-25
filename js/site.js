@@ -31,6 +31,7 @@ function chooseButton(id) {
 }
 
 function blurSidebar() {
+    whiteboard.delete = true;
     $('.sticky-sidebar *:not(.mode-btn)').blur();
 }
 
@@ -125,11 +126,35 @@ $('#width').on('input', function () {
     } catch (error) {
         $(this)[0].value = whiteboard.width;
     }
+
+    readValues();
+    updateSelectedWidth();
 });
 
 $('#width').change(function () {
     if ($(this).val() <defaultValues.minWidth)
         $(this)[0].value = defaultValues.minWidth;
+
+    readValues();
+    updateSelectedWidth();
+});
+
+$('#width').focus(function () {
+    whiteboard.delete = false;
+});
+
+$('#color').on('input', function () {
+    readValues();
+    updateSelectedColor();
+});
+
+$('#color').change(function () {
+    readValues();
+    updateSelectedColor();
+});
+
+$('#color').focus(function () {
+    whiteboard.delete = false;
 });
 
 $('#load-json-file').change(function () {

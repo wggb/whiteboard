@@ -76,16 +76,18 @@ events.onKeyDown.push(function (event) {
     }
 
     if (event.key == 'backspace' || event.key == 'delete') {
-        let removedPathNames = [];
-        whiteboard.paths.forEach(function (path) {
-            if (path.selected) {
-                removedPathNames.push(path.name);
-                path.remove();
-            }
-        });
-        removedPathNames.forEach(function (name) {
-            deletePathFromArray(name);
-        });
+        if (whiteboard.delete) {
+            let removedPathNames = [];
+            whiteboard.paths.forEach(function (path) {
+                if (path.selected) {
+                    removedPathNames.push(path.name);
+                    path.remove();
+                }
+            });
+            removedPathNames.forEach(function (name) {
+                deletePathFromArray(name);
+            });
+        }
 
         // Prevent the key event from bubbling
         return false;

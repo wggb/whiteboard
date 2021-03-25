@@ -8,10 +8,12 @@
 - [ ] Swipey menu
 - [ ] Simplification while writing/drawing
 - [ ] Rotate paths
-- [ ] Change selected item width and color
+- [ ] Refactor whiteboard.js (functions and variables)
+- [ ] Fix canvas focus problem when using shortcuts
 
 # 
 
+- [x] Change selected item width and color
 - [x] Zoom for mobile devices
 - [x] ZOOM
 - [x] Add text input

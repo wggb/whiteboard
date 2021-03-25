@@ -30,6 +30,7 @@ var whiteboard = {
     click: {
         point: null
     },
+    delete: true,
     isBusy: false,
     isBusyHotKey: false
 }
@@ -99,6 +100,25 @@ function getSelectedItems() {
         if (item.selected) selectedItems.push(item);
     });
     return selectedItems;
+}
+
+function updateSelectedWidth(width) {
+    console.log(width);
+    width = (typeof width == 'undefined' || isNaN(width))
+    ? whiteboard.width : width;
+    if (width < defaultValues.minWidth) width = defaultValues.minWidth;
+    if (width > defaultValues.maxValue) width = defaultValues.maxValue;
+    console.log(width);
+    getSelectedItems().forEach(function (item) {
+        item.strokeWidth = width;
+    });
+}
+
+function updateSelectedColor(color) {
+    color = (typeof color != 'undefined') ? color : whiteboard.color;
+    getSelectedItems().forEach(function (item) {
+        item.strokeColor = color;
+    });
 }
 
 function savePaths() {
