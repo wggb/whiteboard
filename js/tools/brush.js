@@ -30,8 +30,12 @@ events.onMouseDrag.push(function (event) {
 events.onMouseUp.push(function (event) {
     if (brush()) {
         if (whiteboard.isBusy && whiteboard.path.current) {
-            if (whiteboard.path.current.segments.length > 5)
+            if (whiteboard.path.current.segments.length > 5) {
                 whiteboard.path.current.simplify(10);
+            } else if (whiteboard.path.current.segments.length <= 2) {
+                whiteboard.path.current.add(event.point.add(0.1));
+                whiteboard.path.current.simplify(50);
+            }
             whiteboard.paths.push(whiteboard.path.current);
 
             resetStats();
