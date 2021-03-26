@@ -12,20 +12,11 @@ function drawSelectRectangle(firstPoint, secondPoint) {
 function selectBox(event) {
     let rect = drawSelectRectangle(whiteboard.click.point, event.point);
     whiteboard.paths.forEach(function (path) {
-        let intersections = null;
-        if (path instanceof Path) {
-            intersections = rect.getIntersections(path);
-            path.selected = (intersections.length > 0);
-            if (rect.bounds.contains(path.interiorPoint))
-                path.selected = true;
-        } else if (path instanceof PointText) {
-            intersections = rect.getIntersections(
-                new Path.Rectangle(path.bounds)
-            );
-            path.selected = (intersections.length > 0);
-            if (path.isInside(rect.bounds))
-                path.selected = true;
-        }
+        let intersections = rect.getIntersections(
+            (path instanceof Path) ? path : new Path.Rectangle(path.bounds)
+        );
+        path.selected = (intersections.length > 0);
+        if (path.isInside(rect.bounds)) path.selected = true;
     });
 }
 
