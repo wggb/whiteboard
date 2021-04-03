@@ -9,10 +9,10 @@
 - [ ] Simplification while writing/drawing
 - [ ] Rotate paths
 - [ ] Refactor whiteboard.js (functions and variables)
-- [ ] Fix canvas focus problem when using shortcuts
 
 # 
 
+- [x] Fix canvas focus problem when using shortcuts
 - [x] Change selected item width and color
 - [x] Zoom for mobile devices
 - [x] ZOOM

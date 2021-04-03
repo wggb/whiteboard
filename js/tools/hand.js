@@ -59,6 +59,7 @@ events.onMouseMove.push(function (event) {
 events.onMouseUp.push(function (event) {
     if (hand()) {
         if (!Key.isDown('s')) resetStats();
+        whiteboard.isBusy = false;
     }
 });
 
