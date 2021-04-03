@@ -6,7 +6,7 @@ function text() {
 }
 
 function readTextElement() {
-    if (whiteboard.isBusy) whiteboard.text.current.content =
+    if (whiteboard.isBusy) whiteboard.current.text.content =
         $('#whiteboard-text-element').val();
 }
 
@@ -31,19 +31,19 @@ function removeTextElement(id) {
 }
 
 function pushCurrentText() {
-    if (whiteboard.text.current.content.trim() != '') {
-        whiteboard.text.current.name = '#' + whiteboard.path.id++;
-        whiteboard.paths.push(whiteboard.text.current);
+    if (whiteboard.current.text.content.trim() != '') {
+        whiteboard.current.text.name = '#' + whiteboard.current.id++;
+        whiteboard.items.push(whiteboard.current.text);
     }
 }
 
 events.onMouseDown.push(function (event) {
     if (text()) {
-        if (whiteboard.text.current) pushCurrentText();
+        if (whiteboard.current.text) pushCurrentText();
         whiteboard.isBusy = true;
-        whiteboard.text.current = new PointText({
+        whiteboard.current.text = new PointText({
             content: '',
-            point: whiteboard.click.point,
+            point: whiteboard.mouse.click,
             fillColor: whiteboard.color,
             fontSize: whiteboard.width + 16,    // TODO: Change this
             selected: true
@@ -58,7 +58,7 @@ events.onKeyDown.push(function (event) {
         if (event.key == 'shift') shift = true;
         if (whiteboard.isBusy && event.key == 'enter') {
             if (!shift) {
-                whiteboard.text.current.selected = false;
+                whiteboard.current.text.selected = false;
                 removeTextElement('whiteboard-text-element');
                 resetStats();
             }

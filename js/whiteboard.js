@@ -16,19 +16,15 @@ var whiteboard = {
     mode: defaultValues.mode,
     color: defaultValues.color,
     width: defaultValues.width,
-    paths: [],
-    path: {
+    items: [],
+    current: {
         id: 0,
-        current: null
-    },
-    text: {
-        current: null
+        path: null,
+        text: null
     },
     mouse: {
-        point: null
-    },
-    click: {
-        point: null
+        point: null,
+        click: null
     },
     delete: true,
     isBusy: false,
@@ -45,10 +41,10 @@ var events = {
 }
 
 function clearWhiteboard() {
-    whiteboard.paths.forEach(function (path) {
+    whiteboard.items.forEach(function (path) {
         path.remove()
     });
-    whiteboard.paths = [];
+    whiteboard.items = [];
 }
 
 function readValues() {
@@ -73,42 +69,40 @@ function readValues() {
 
 function setUI() { chooseButton(whiteboard.mode); }
 
-function deletePathFromArray(name) {
-    whiteboard.paths.forEach(function (path, index) {
-        if (path.name == name)
-            whiteboard.paths.splice(index, 1);
+function deleteItemFromArray(name) {
+    whiteboard.items.forEach(function (item, index) {
+        if (item.name == name)
+            whiteboard.items.splice(index, 1);
     });
 }
 
-function loadPaths(text) {
+function loadItems(text) {
     clearWhiteboard();
 
     try {
-        JSON.parse(text).forEach(function (path) {
-            let mode = path[0].trim().toLowerCase();
+        JSON.parse(text).forEach(function (item) {
+            let mode = item[0].trim().toLowerCase();
             if (mode == 'path')
-                whiteboard.paths.push(new Path(path[1]));
+                whiteboard.items.push(new Path(item[1]));
             else if (mode == 'pointtext')
-                whiteboard.paths.push(new PointText(path[1]));
+                whiteboard.items.push(new PointText(item[1]));
         });
     } catch (error) { alert('Text can\'t be parsed.'); }
 }
 
 function getSelectedItems() {
     let selectedItems = [];
-    whiteboard.paths.forEach(function (item) {
+    whiteboard.items.forEach(function (item) {
         if (item.selected) selectedItems.push(item);
     });
     return selectedItems;
 }
 
 function updateSelectedWidth(width) {
-    console.log(width);
     width = (typeof width == 'undefined' || isNaN(width))
     ? whiteboard.width : width;
     if (width < defaultValues.minWidth) width = defaultValues.minWidth;
     if (width > defaultValues.maxValue) width = defaultValues.maxValue;
-    console.log(width);
     getSelectedItems().forEach(function (item) {
         item.strokeWidth = width;
     });
@@ -121,8 +115,8 @@ function updateSelectedColor(color) {
     });
 }
 
-function savePaths() {
-    $('#save-textarea')[0].value = JSON.stringify(whiteboard.paths);
+function saveItems() {
+    $('#save-textarea')[0].value = JSON.stringify(whiteboard.items);
 }
 
 function selectActiveLayer(value) {
@@ -130,16 +124,16 @@ function selectActiveLayer(value) {
 }
 
 function resetStats() {
-    if (whiteboard.path.current)
-        whiteboard.path.current.selected = false;
-    if (whiteboard.text.current) {
-        whiteboard.text.current.selected = false;
+    if (whiteboard.current.path)
+        whiteboard.current.path.selected = false;
+    if (whiteboard.current.text) {
+        whiteboard.current.text.selected = false;
         pushCurrentText();
     }
     whiteboard.isBusy = false;
-    whiteboard.path.current = null;
-    whiteboard.text.current = null;
-    whiteboard.click.point = null;
+    whiteboard.current.path = null;
+    whiteboard.current.text = null;
+    whiteboard.mouse.click = null;
 }
 
 function zoomWhiteboard(rate, multiply) {

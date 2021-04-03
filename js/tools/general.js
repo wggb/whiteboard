@@ -10,8 +10,8 @@ function drawSelectRectangle(firstPoint, secondPoint) {
 }
 
 function selectBox(event) {
-    let rect = drawSelectRectangle(whiteboard.click.point, event.point);
-    whiteboard.paths.forEach(function (path) {
+    let rect = drawSelectRectangle(whiteboard.mouse.click, event.point);
+    whiteboard.items.forEach(function (path) {
         let intersections = rect.getIntersections(
             (path instanceof Path) ? path : new Path.Rectangle(path.bounds)
         );
@@ -27,7 +27,7 @@ events.onMouseDown.push(function (event) {
     if (whiteboard.mode != 'move' || !Key.isDown('s'))
         selectActiveLayer(false);
 
-    whiteboard.click.point = event.point;
+    whiteboard.mouse.click = event.point;
     if (!whiteboard.isBusy) whiteboard.isBusyHotKey = (
         Key.isDown('shift') ||
         (whiteboard.mode == 'draw' &&
@@ -69,14 +69,14 @@ events.onKeyDown.push(function (event) {
     if (event.key == 'backspace' || event.key == 'delete') {
         if (whiteboard.delete) {
             let removedPathNames = [];
-            whiteboard.paths.forEach(function (path) {
+            whiteboard.items.forEach(function (path) {
                 if (path.selected) {
                     removedPathNames.push(path.name);
                     path.remove();
                 }
             });
             removedPathNames.forEach(function (name) {
-                deletePathFromArray(name);
+                deleteItemFromArray(name);
             });
         }
 

@@ -15,7 +15,7 @@ events.onMouseDrag.push(function (event) {
     if (eraser()) {
         if (whiteboard.isBusy) {
             if (event.item) {
-                deletePathFromArray(event.item.name);
+                deleteItemFromArray(event.item.name);
                 event.item.remove();
             }
         }

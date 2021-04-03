@@ -30,13 +30,13 @@ events.onMouseDrag.push(function (event) {
                 });
             } else if (Key.isDown('w')) {
                 view.center = view.center.add(
-                    new Point(0, whiteboard.click.point.y - event.point.y));
+                    new Point(0, whiteboard.mouse.click.y - event.point.y));
             } else if (Key.isDown('q')) {
                 view.center = view.center.add(
-                    new Point(whiteboard.click.point.x - event.point.x, 0));
+                    new Point(whiteboard.mouse.click.x - event.point.x, 0));
             } else {
                 view.center = view.center.add(
-                    whiteboard.click.point.subtract(event.point));
+                    whiteboard.mouse.click.subtract(event.point));
             }
         }
     }

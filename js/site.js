@@ -53,7 +53,7 @@ $('#save-button, #save-load').click(function () {
     $('.load-item').addClass('d-none');
     $('.save-item').removeClass('d-none');
     resetStats();
-    savePaths();
+    saveItems();
 });
 
 $('#load-json-button').click(function () {
@@ -75,7 +75,7 @@ $('#save-load-done').click(function () {
     if ($('#save-textarea').hasClass('d-none')) {
         let loadText = $('#load-textarea').val().trim();
         if (loadText != '') {
-            loadPaths(loadText);
+            loadItems(loadText);
         }
         $('#load-textarea')[0].value = '';
     }

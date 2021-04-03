@@ -9,34 +9,34 @@ events.onMouseDown.push(function (event) {
     if (brush()) {
         whiteboard.isBusy = true;
 
-        let pathName = '#' + whiteboard.path.id++;
-        whiteboard.path.current = new Path({
+        let pathName = '#' + whiteboard.current.id++;
+        whiteboard.current.path = new Path({
             segments: [event.point],
             strokeColor: whiteboard.color,
             strokeWidth: whiteboard.width,
             strokeCap: 'round',
             name: pathName
         });
-        whiteboard.path.current.add(event.point);
+        whiteboard.current.path.add(event.point);
     }
 });
 
 events.onMouseDrag.push(function (event) {
     if (brush()) {
-        if (whiteboard.isBusy) whiteboard.path.current.add(event.point);
+        if (whiteboard.isBusy) whiteboard.current.path.add(event.point);
     }
 });
 
 events.onMouseUp.push(function (event) {
     if (brush()) {
-        if (whiteboard.isBusy && whiteboard.path.current) {
-            if (whiteboard.path.current.segments.length > 5) {
-                whiteboard.path.current.simplify(10);
-            } else if (whiteboard.path.current.segments.length <= 2) {
-                whiteboard.path.current.add(event.point.add(0.1));
-                whiteboard.path.current.simplify(50);
+        if (whiteboard.isBusy && whiteboard.current.path) {
+            if (whiteboard.current.path.segments.length > 5) {
+                whiteboard.current.path.simplify(10);
+            } else if (whiteboard.current.path.segments.length <= 2) {
+                whiteboard.current.path.add(event.point.add(0.1));
+                whiteboard.current.path.simplify(50);
             }
-            whiteboard.paths.push(whiteboard.path.current);
+            whiteboard.items.push(whiteboard.current.path);
 
             resetStats();
         }
