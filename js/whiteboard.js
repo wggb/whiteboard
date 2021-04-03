@@ -104,14 +104,22 @@ function updateSelectedWidth(width) {
     if (width < defaultValues.minWidth) width = defaultValues.minWidth;
     if (width > defaultValues.maxValue) width = defaultValues.maxValue;
     getSelectedItems().forEach(function (item) {
-        item.strokeWidth = width;
+        if (item instanceof Path) {
+            item.strokeWidth = width;
+        } else if (item instanceof PointText) {
+            item.fontSize = width + 16;
+        }
     });
 }
 
 function updateSelectedColor(color) {
     color = (typeof color != 'undefined') ? color : whiteboard.color;
     getSelectedItems().forEach(function (item) {
-        item.strokeColor = color;
+        if (item instanceof Path) {
+            item.strokeColor = color;
+        } else if (item instanceof PointText) {
+            item.fillColor = color;
+        }
     });
 }
 
