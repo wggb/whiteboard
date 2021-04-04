@@ -1,20 +1,21 @@
-let currentSelectedPath = null;
-
-function hand() {
-    return (
-        !whiteboard.isBusyHotKey &&
-        whiteboard.mode == 'move'
-    );
-}
+tools.hand = {
+    currentSelected: null,
+    check: function () {
+        return (
+            !whiteboard.isBusyHotKey &&
+            whiteboard.mode == 'move'
+        );
+    }
+};
 
 events.onMouseDown.push(function (event) {
-    if (hand()) {
+    if (tools.hand.check()) {
         whiteboard.isBusy = true;
     }
 });
 
 events.onMouseDrag.push(function (event) {
-    if (hand()) {
+    if (tools.hand.check()) {
         if (whiteboard.isBusy) {
             if (Key.isDown('s')) {
                 getSelectedItems().forEach(function (selected) {
@@ -43,13 +44,13 @@ events.onMouseDrag.push(function (event) {
 });
 
 events.onMouseMove.push(function (event) {
-    if (hand()) {
+    if (tools.hand.check()) {
         if (Key.isDown('s')) {
-            if (currentSelectedPath)
-                currentSelectedPath.selected = false;
-            currentSelectedPath = null;
+            if (tools.hand.currentSelected)
+                tools.hand.currentSelected.selected = false;
+            tools.hand.currentSelected = null;
             if (event.item && !event.item.selected) {
-                currentSelectedPath = event.item;
+                tools.hand.currentSelected = event.item;
                 event.item.selected = true;
             }
         }
@@ -57,15 +58,15 @@ events.onMouseMove.push(function (event) {
 });
 
 events.onMouseUp.push(function (event) {
-    if (hand()) {
+    if (tools.hand.check()) {
         if (!Key.isDown('s')) resetStats();
         whiteboard.isBusy = false;
     }
 });
 
 events.onKeyUp.push(function (event) {
-    if (event.key == 's' && currentSelectedPath) {
-        currentSelectedPath.selected = false;
-        currentSelectedPath = null;
+    if (event.key == 's' && tools.hand.currentSelected) {
+        tools.hand.currentSelected.selected = false;
+        tools.hand.currentSelected = null;
     }
 });

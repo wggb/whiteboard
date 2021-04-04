@@ -1,12 +1,14 @@
-function shape() {
-    return (
-        !whiteboard.isBusy &&
-        whiteboard.mode == 'draw'
-    );
-}
+tools.shape = {
+    check: function () {
+        return (
+            !whiteboard.isBusy &&
+            whiteboard.mode == 'draw'
+        );
+    }
+};
 
 events.onMouseDrag.push(function (event) {
-    if (shape()) {
+    if (tools.shape.check()) {
         let clickPoint = whiteboard.mouse.click;
         if (Key.isDown('q')) {
             let rect = new Rectangle(clickPoint, event.point);
@@ -64,7 +66,7 @@ events.onMouseDrag.push(function (event) {
 });
 
 events.onMouseUp.push(function (event) {
-    if (shape()) {
+    if (tools.shape.check()) {
         if (Key.isDown('q') || Key.isDown('w') || Key.isDown('a')) {
             if (whiteboard.current.path) {
                 whiteboard.current.path.name = '#' + whiteboard.current.id++;
@@ -76,7 +78,7 @@ events.onMouseUp.push(function (event) {
 });
 
 events.onKeyUp.push(function (event) {
-    if (shape()) {
+    if (tools.shape.check()) {
         if (event.key == 'q' || event.key == 'w' || event.key == 'a') {
             if (whiteboard.current.path) whiteboard.current.path.remove();
         }

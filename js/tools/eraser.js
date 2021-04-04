@@ -1,29 +1,29 @@
-function eraser() {
-    return (
-        !whiteboard.isBusyHotKey &&
-        whiteboard.mode == 'del'
-    );
-}
+tools.eraser = {
+    check: function () {
+        return (
+            !whiteboard.isBusyHotKey &&
+            whiteboard.mode == 'del'
+        );
+    }
+};
 
 events.onMouseDown.push(function (event) {
-    if (eraser()) {
+    if (tools.eraser.check()) {
         whiteboard.isBusy = true;
     }
 });
 
 events.onMouseDrag.push(function (event) {
-    if (eraser()) {
-        if (whiteboard.isBusy) {
-            if (event.item) {
-                deleteItemFromArray(event.item.name);
-                event.item.remove();
-            }
+    if (tools.eraser.check()) {
+        if (whiteboard.isBusy && event.item) {
+            deleteItemFromArray(event.item.name);
+            event.item.remove();
         }
     }
 });
 
 events.onMouseUp.push(function (event) {
-    if (eraser()) {
+    if (tools.eraser.check()) {
         resetStats();
     }
 })

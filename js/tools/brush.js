@@ -1,12 +1,14 @@
-function brush() {
-    return (
-        !whiteboard.isBusyHotKey &&
-        whiteboard.mode == 'draw'
-    );
-}
+tools.brush = {
+    check: function () {
+        return (
+            !whiteboard.isBusyHotKey &&
+            whiteboard.mode == 'draw'
+        );
+    }
+};
 
 events.onMouseDown.push(function (event) {
-    if (brush()) {
+    if (tools.brush.check()) {
         whiteboard.isBusy = true;
 
         let pathName = '#' + whiteboard.current.id++;
@@ -22,13 +24,13 @@ events.onMouseDown.push(function (event) {
 });
 
 events.onMouseDrag.push(function (event) {
-    if (brush()) {
+    if (tools.brush.check()) {
         if (whiteboard.isBusy) whiteboard.current.path.add(event.point);
     }
 });
 
 events.onMouseUp.push(function (event) {
-    if (brush()) {
+    if (tools.brush.check()) {
         if (whiteboard.isBusy && whiteboard.current.path) {
             if (whiteboard.current.path.segments.length > 5) {
                 whiteboard.current.path.simplify(10);

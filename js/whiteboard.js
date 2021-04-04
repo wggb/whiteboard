@@ -1,7 +1,7 @@
 paper.install(window);
 window.onload = function () {
     paper.setup('whiteboard');
-}
+};
 let tool = new Tool();
 
 const defaultValues = {
@@ -10,7 +10,7 @@ const defaultValues = {
     width: 6,
     minWidth: 1,
     maxWidth: 9999
-}
+};
 
 var whiteboard = {
     mode: defaultValues.mode,
@@ -29,7 +29,9 @@ var whiteboard = {
     delete: true,
     isBusy: false,
     isBusyHotKey: false
-}
+};
+
+var tools = {};
 
 var events = {
     onMouseDown: [],
@@ -38,7 +40,7 @@ var events = {
     onMouseUp: [],
     onKeyDown: [],
     onKeyUp: []
-}
+};
 
 function clearWhiteboard() {
     whiteboard.items.forEach(function (path) {
@@ -100,7 +102,7 @@ function getSelectedItems() {
 
 function updateSelectedWidth(width) {
     width = (typeof width == 'undefined' || isNaN(width))
-    ? whiteboard.width : width;
+        ? whiteboard.width : width;
     if (width < defaultValues.minWidth) width = defaultValues.minWidth;
     if (width > defaultValues.maxValue) width = defaultValues.maxValue;
     getSelectedItems().forEach(function (item) {
@@ -136,7 +138,9 @@ function resetStats() {
         whiteboard.current.path.selected = false;
     if (whiteboard.current.text) {
         whiteboard.current.text.selected = false;
-        pushCurrentText();
+        try {
+            tools.text.pushCurrentText();
+        } catch (e) { }
     }
     whiteboard.isBusy = false;
     whiteboard.current.path = null;

@@ -1,4 +1,6 @@
-let isSpecialKeyEnabled = false;
+tools.general = {
+    isSpecialKeyEnabled: false
+};
 
 function drawSelectRectangle(firstPoint, secondPoint) {
     let rectangle = new Rectangle(firstPoint, secondPoint);
@@ -11,12 +13,12 @@ function drawSelectRectangle(firstPoint, secondPoint) {
 
 function selectBox(event) {
     let rect = drawSelectRectangle(whiteboard.mouse.click, event.point);
-    whiteboard.items.forEach(function (path) {
+    whiteboard.items.forEach(function (item) {
         let intersections = rect.getIntersections(
-            (path instanceof Path) ? path : new Path.Rectangle(path.bounds)
+            (item instanceof Path) ? item : new Path.Rectangle(item.bounds)
         );
-        path.selected = (intersections.length > 0);
-        if (path.isInside(rect.bounds)) path.selected = true;
+        item.selected = (intersections.length > 0);
+        if (item.isInside(rect.bounds)) item.selected = true;
     });
 }
 
@@ -48,13 +50,13 @@ events.onMouseMove.push(function (event) {
 events.onKeyDown.push(function (event) {
     readValues();
 
-    isSpecialKeyEnabled = (
+    tools.general.isSpecialKeyEnabled = (
         event.key == 'space' ||
         event.keyCode == 19 ||
         event.keyCode == 91
-    ) ? true : isSpecialKeyEnabled;
+    ) ? true : tools.general.isSpecialKeyEnabled;
 
-    if (isSpecialKeyEnabled && !whiteboard.isBusy) {
+    if (tools.general.isSpecialKeyEnabled && !whiteboard.isBusy) {
         let keyMapper = {
             '1': 'move',
             '2': 'draw',
@@ -68,14 +70,14 @@ events.onKeyDown.push(function (event) {
 
     if (event.key == 'backspace' || event.key == 'delete') {
         if (whiteboard.delete) {
-            let removedPathNames = [];
-            whiteboard.items.forEach(function (path) {
-                if (path.selected) {
-                    removedPathNames.push(path.name);
-                    path.remove();
+            let removedItemNames = [];
+            whiteboard.items.forEach(function (item) {
+                if (item.selected) {
+                    removedItemNames.push(item.name);
+                    item.remove();
                 }
             });
-            removedPathNames.forEach(function (name) {
+            removedItemNames.forEach(function (name) {
                 deleteItemFromArray(name);
             });
         }
@@ -89,7 +91,7 @@ events.onKeyUp.push(function (event) {
     if (event.key == 'space' ||
         event.keyCode == 19 ||
         event.keyCode == 91) {
-        isSpecialKeyEnabled = false;
+        tools.general.isSpecialKeyEnabled = false;
         if (!whiteboard.isBusy)
             setTimeout(function () { setUI(); }, 0);
     }
