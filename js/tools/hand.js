@@ -1,5 +1,6 @@
 tools.hand = {
     currentSelected: null,
+    rotationOrigin: null,
     check: function () {
         return (
             !whiteboard.isBusyHotKey &&
@@ -12,6 +13,7 @@ events.onMouseDown.push(function (event) {
     if (tools.hand.check()) {
         whiteboard.isBusy = true;
     }
+    if (Key.isDown('r')) tools.hand.rotationOrigin = event.point;
 });
 
 events.onMouseDrag.push(function (event) {
@@ -29,6 +31,14 @@ events.onMouseDrag.push(function (event) {
                         selected.position = selected.position.add(event.delta);
                     }
                 });
+            } else if (Key.isDown('r')) {
+                getSelectedItems().forEach(function (selected) {
+                    if (tools.hand.rotationOrigin) selected.rotate(
+                        (event.point.x - tools.hand.rotationOrigin.x) +
+                        (event.point.y - tools.hand.rotationOrigin.y)
+                    );
+                });
+                tools.hand.rotationOrigin = event.point;
             } else if (Key.isDown('w')) {
                 view.center = view.center.add(
                     new Point(0, whiteboard.mouse.click.y - event.point.y));

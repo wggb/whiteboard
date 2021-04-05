@@ -7,12 +7,12 @@
 - [ ] Create CHANGELOG.md
 - [ ] Swipey menu
 - [ ] Simplification while writing/drawing
-- [ ] Rotate paths
 - [ ] Add commnets
 - [ ] Refactor whiteboard.js (functions)
 
 # 
 
+- [x] Rotate paths
 - [x] Fix text resizing
 - [x] Refactor whiteboard.js (variables)
 - [x] Refactor tools (functions and variables)

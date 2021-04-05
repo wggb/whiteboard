@@ -26,7 +26,7 @@ events.onMouseDown.push(function (event) {
     blurSidebar();
     readValues();
 
-    if (whiteboard.mode != 'move' || !Key.isDown('s'))
+    if (whiteboard.mode != 'move' || (!Key.isDown('s') && !Key.isDown('r')))
         selectActiveLayer(false);
 
     whiteboard.mouse.click = event.point;
