@@ -165,6 +165,22 @@ function zoomWhiteboard(rate, multiply) {
     }
 }
 
+function getCenter() {
+    return view.center;
+}
+
+function getCenterAsArray() {
+    return [view.center.x, view.center.y];
+}
+
+function setCenter(pos) {
+    if (pos instanceof Point) {
+        view.center = pos;
+    } else if (pos instanceof Array) {
+        view.center = new Point(pos[0], pos[1]);
+    }
+}
+
 tool.onMouseDown = function (event) {
     events.onMouseDown.forEach(function (func) {
         func(event);
