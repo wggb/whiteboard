@@ -42,6 +42,15 @@ var events = {
     onKeyUp: []
 };
 
+function resetWhiteboard() {
+    whiteboard.mode = defaultValues.mode;
+    $('#mode')[0].value = defaultValues.mode;
+    whiteboard.width = defaultValues.width;
+    $('#width')[0].value = defaultValues.width;
+    whiteboard.color = defaultValues.color;
+    $('#color')[0].value = defaultValues.color;
+}
+
 function clearWhiteboard() {
     whiteboard.items.forEach(function (path) {
         path.remove()

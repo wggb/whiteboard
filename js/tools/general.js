@@ -61,10 +61,15 @@ events.onKeyDown.push(function (event) {
             '1': 'move',
             '2': 'draw',
             '3': 'del',
-            '4': 'text'
+            '4': 'text',
+            'delete': 'clear',
+            'backspace': 'clear'
         };
         if (event.key >= '1' && event.key <= '4')
             whiteboard.mode = keyMapper[event.key];
+        else if (event.key == 'delete' || event.key == 'backspace')
+            clearWhiteboard();
+        if (event.key == 'backspace') resetWhiteboard();
         setUI();
     }
 
