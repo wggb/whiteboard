@@ -19,7 +19,7 @@ function isLoad() {
 }
 
 function chooseButton(id) {
-    resetStats();
+    whiteboard.resetStats();
     if (!$('#save-load-modal').hasClass('show')) {
         $('.sticky-sidebar button:not(.mode-btn)').blur();
         $('.sticky-sidebar input:not(.mode-btn)').blur();
@@ -52,7 +52,7 @@ $('#load-button').click(function () {
 $('#save-button, #save-load').click(function () {
     $('.load-item').addClass('d-none');
     $('.save-item').removeClass('d-none');
-    resetStats();
+    whiteboard.resetStats();
     saveItems();
 });
 
@@ -75,7 +75,7 @@ $('#save-load-done').click(function () {
     if ($('#save-textarea').hasClass('d-none')) {
         let loadText = $('#load-textarea').val().trim();
         if (loadText != '') {
-            loadItems(loadText);
+            whiteboard.loadItems(loadText);
         }
         $('#load-textarea')[0].value = '';
     }
@@ -127,15 +127,15 @@ $('#width').on('input', function () {
         $(this)[0].value = whiteboard.width;
     }
 
-    readValues();
+    whiteboard.readValues();
     updateSelectedWidth();
 });
 
 $('#width').change(function () {
-    if ($(this).val() <defaultValues.minWidth)
+    if ($(this).val() < defaultValues.minWidth)
         $(this)[0].value = defaultValues.minWidth;
 
-    readValues();
+    whiteboard.readValues();
     updateSelectedWidth();
 });
 
@@ -144,12 +144,12 @@ $('#width').focus(function () {
 });
 
 $('#color').on('input', function () {
-    readValues();
+    whiteboard.readValues();
     updateSelectedColor();
 });
 
 $('#color').change(function () {
-    readValues();
+    whiteboard.readValues();
     updateSelectedColor();
 });
 

@@ -15,15 +15,13 @@ events.onMouseDown.push(function (event) {
 
 events.onMouseDrag.push(function (event) {
     if (tools.eraser.check()) {
-        if (whiteboard.isBusy && event.item) {
-            deleteItemFromArray(event.item.name);
-            event.item.remove();
-        }
+        if (whiteboard.isBusy && event.item)
+            whiteboard.deleteItem(event.item.name);
     }
 });
 
 events.onMouseUp.push(function (event) {
     if (tools.eraser.check()) {
-        resetStats();
+        whiteboard.resetStats();
     }
 })

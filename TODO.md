@@ -8,10 +8,10 @@
 - [ ] Swipey menu
 - [ ] Simplification while writing/drawing
 - [ ] Add commnets
-- [ ] Refactor whiteboard.js (functions)
 
 # 
 
+- [x] Refactor whiteboard.js (functions)
 - [x] Rotate paths
 - [x] Fix text resizing
 - [x] Refactor whiteboard.js (variables)

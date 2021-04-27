@@ -72,7 +72,7 @@ events.onMouseUp.push(function (event) {
                 whiteboard.current.path.name = '#' + whiteboard.current.id++;
                 whiteboard.items.push(whiteboard.current.path);
             }
-            resetStats();
+            whiteboard.resetStats();
         }
     }
 });

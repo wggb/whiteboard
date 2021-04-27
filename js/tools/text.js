@@ -57,7 +57,7 @@ events.onKeyDown.push(function (event) {
         if (whiteboard.isBusy && event.key == 'enter' && !tools.text.shift) {
             whiteboard.current.text.selected = false;
             tools.text.removeTextElement('whiteboard-text-element');
-            resetStats();
+            whiteboard.resetStats();
         }
     }
 });

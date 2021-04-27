@@ -40,7 +40,7 @@ events.onMouseUp.push(function (event) {
             }
             whiteboard.items.push(whiteboard.current.path);
 
-            resetStats();
+            whiteboard.resetStats();
         }
     }
 });

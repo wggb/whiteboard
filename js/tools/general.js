@@ -24,10 +24,10 @@ function selectBox(event) {
 
 events.onMouseDown.push(function (event) {
     blurSidebar();
-    readValues();
+    whiteboard.readValues();
 
     if (whiteboard.mode != 'move' || (!Key.isDown('s') && !Key.isDown('r')))
-        selectActiveLayer(false);
+        whiteboard.selectActiveLayer(false);
 
     whiteboard.mouse.click = event.point;
     if (!whiteboard.isBusy) whiteboard.isBusyHotKey = (
@@ -48,7 +48,7 @@ events.onMouseMove.push(function (event) {
 });
 
 events.onKeyDown.push(function (event) {
-    readValues();
+    whiteboard.readValues();
 
     tools.general.isSpecialKeyEnabled = (
         event.key == 'space' ||
@@ -68,22 +68,15 @@ events.onKeyDown.push(function (event) {
         if (event.key >= '1' && event.key <= '4')
             whiteboard.mode = keyMapper[event.key];
         else if (event.key == 'delete' || event.key == 'backspace')
-            clearWhiteboard();
-        if (event.key == 'backspace') resetWhiteboard();
+            whiteboard.clear();
+        if (event.key == 'backspace') whiteboard.reset();
         setUI();
     }
 
     if (event.key == 'backspace' || event.key == 'delete') {
         if (whiteboard.delete) {
-            let removedItemNames = [];
-            whiteboard.items.forEach(function (item) {
-                if (item.selected) {
-                    removedItemNames.push(item.name);
-                    item.remove();
-                }
-            });
-            removedItemNames.forEach(function (name) {
-                deleteItemFromArray(name);
+            whiteboard.getSelectedItems().forEach(function (item) {
+                whiteboard.deleteItem(item.name);
             });
         }
 

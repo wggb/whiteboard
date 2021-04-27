@@ -20,7 +20,7 @@ events.onMouseDrag.push(function (event) {
     if (tools.hand.check()) {
         if (whiteboard.isBusy) {
             if (Key.isDown('s')) {
-                getSelectedItems().forEach(function (selected) {
+                whiteboard.getSelectedItems().forEach(function (selected) {
                     if (Key.isDown('w')) {
                         selected.position = selected.position.add(
                             new Point(0, event.delta.y));
@@ -32,7 +32,7 @@ events.onMouseDrag.push(function (event) {
                     }
                 });
             } else if (Key.isDown('r')) {
-                getSelectedItems().forEach(function (selected) {
+                whiteboard.getSelectedItems().forEach(function (selected) {
                     if (tools.hand.rotationOrigin) selected.rotate(
                         (event.point.x - tools.hand.rotationOrigin.x) +
                         (event.point.y - tools.hand.rotationOrigin.y)
@@ -69,7 +69,7 @@ events.onMouseMove.push(function (event) {
 
 events.onMouseUp.push(function (event) {
     if (tools.hand.check()) {
-        if (!Key.isDown('s')) resetStats();
+        if (!Key.isDown('s')) whiteboard.resetStats();
         whiteboard.isBusy = false;
     }
 });
