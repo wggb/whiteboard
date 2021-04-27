@@ -4,13 +4,13 @@
 - [ ] Add constructor functions
 - [ ] Add right handed and left handed mode (?)
 - [ ] Change and Simplify the UI
-- [ ] Create CHANGELOG.md
 - [ ] Swipey menu
 - [ ] Simplification while writing/drawing
 - [ ] Add commnets
 
 # 
 
+- [x] Create CHANGELOG.md
 - [x] Refactor whiteboard.js (functions)
 - [x] Rotate paths
 - [x] Fix text resizing
