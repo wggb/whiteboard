@@ -78,7 +78,7 @@
         <div class="modal-body">
           <textarea id="save-textarea" class="form-control save-item" aria-label="With textarea" readonly></textarea>
           <textarea id="load-textarea" class="form-control load-item d-none" aria-label="With textarea"></textarea>
-          <div id="copy-save-textarea-container" class="copy-container save-item">
+          <div id="copy-save-textarea-container" class="hover-container save-item">
             <button id="copy-save-textarea" default-text="Copy" class="btn btn-light">Copy</button>
           </div>
         </div>
@@ -119,6 +119,12 @@
 
   <div class="main">
     <canvas resize="true" id="whiteboard" data-paper-scope="1"></canvas>
+  </div>
+
+  <div class="hud">
+    <div id="zoom-percent-container" class="hover-container">
+      <button class="btn btn-light"><span id="zoom-percent">100</span>%</button>
+    </div>
   </div>
 
   <!-- LIB -->

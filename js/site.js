@@ -26,6 +26,21 @@ function blurSidebar() {
     $('.sticky-sidebar *:not(.mode-btn)').blur();
 }
 
+function showZoom() {
+    let $countainer = $('#zoom-percent-container');
+    $('#zoom-percent').text(Math.floor((view.zoom) * 100));
+    $countainer.addClass('show');
+    let lastZoom = view.zoom;
+    setTimeout(function () {
+        if (lastZoom == view.zoom)
+            $countainer.removeClass('show');
+    }, 600);
+}
+
+$('#zoom-percent-container button').mouseenter(function () {
+    $(this).toggleClass('top');
+});
+
 if (!isCanvasSupported()) {
     alert("Canvas is not supported by your browser.");
 }
@@ -74,10 +89,12 @@ $('#save-load-done').click(function () {
 
 $('#zoom-in').click(function () {
     zoomWhiteboard(1.2);
+    showZoom();
 });
 
 $('#zoom-out').click(function () {
     zoomWhiteboard(0.8);
+    showZoom();
 });
 
 $('#whiteboard').bind('contextmenu', function () {
@@ -155,6 +172,26 @@ $('#load-json-file').change(function () {
     );
 });
 
+$(defaultValues.whiteboardSelector)[0].addEventListener('wheel',
+    function (event) {
+        if (!whiteboard.zoomLocked) {
+            setTimeout(function () {
+                showZoom();
+            }, 0);
+        }
+    }
+);
+
+$(defaultValues.whiteboardSelector)[0].addEventListener('touchmove',
+    function (event) {
+        if (whiteboard.mode == 'move' && event.touches.length > 1) {
+            setTimeout(function () {
+                showZoom();
+            }, 0);
+        }
+    }
+);
+
 $('#save-textarea, #copy-save-textarea-container').hover(
     function () {
         $('#copy-save-textarea-container').addClass('show');
@@ -170,10 +207,10 @@ $('#copy-save-textarea').click(function () {
     if (window.getSelection) window.getSelection().removeAllRanges();
     else if (document.selection) document.selection.empty();
 
-    let button = $(this)
-    button.text('Copied!');
+    let $button = $(this)
+    $button.text('Copied!');
     setTimeout(function () {
-        button.text(button.attr('default-text'));
+        $button.text($button.attr('default-text'));
     }, 1500);
 });
 

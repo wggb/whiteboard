@@ -13,7 +13,9 @@ const defaultValues = {
     colorSelector: '#color',
     widthSelector: '#width',
     minWidth: 1,
-    maxWidth: 9999
+    maxWidth: 9999,
+    maxZoom: 16,
+    minZoom: 0.4
 };
 
 var whiteboard = {
@@ -33,6 +35,7 @@ var whiteboard = {
     delete: true,
     isBusy: false,
     isBusyHotKey: false,
+    zoomLocked: false,
 
     reset: function () {
         this.mode = defaultValues.mode;
@@ -189,12 +192,11 @@ function getEventDistance(event) {
 }
 
 function zoomWhiteboard(rate, multiply) {
-    let minValue = 0.4, maxValue = 16;
     let zoomValue = view.zoom * rate;
     multiply = (typeof multiply != 'undefined') ? multiply : 0;
-    if (zoomValue >= minValue && zoomValue <= maxValue &&
-        ((view.zoom < maxValue && rate > 1) ||
-            (view.zoom > minValue && rate < 1))) {
+    if (zoomValue >= defaultValues.minZoom && zoomValue <= defaultValues.maxZoom &&
+        ((view.zoom < defaultValues.maxZoom && rate > 1) ||
+            (view.zoom > defaultValues.minZoom && rate < 1))) {
         let direction = (rate < 1) ? -1 : 1;
         if (multiply > 0)
             view.center = view.center.add(
@@ -205,18 +207,17 @@ function zoomWhiteboard(rate, multiply) {
     }
 }
 
-var hotKeyPressed = false;
 $(window).keydown(function (event) {
     if (event.which == 32 || event.which == 91 || event.which == 19)
-        hotKeyPressed = true;
+        whiteboard.zoomLocked = true;
 }).keyup(function (event) {
     if (event.which == 32 || event.which == 91 || event.which == 19)
-        hotKeyPressed = false;
+        whiteboard.zoomLocked = false;
 });
 
 $(defaultValues.whiteboardSelector)[0].addEventListener('wheel',
     function (event) {
-        if (hotKeyPressed) {
+        if (whiteboard.zoomLocked) {
             let $width = $(defaultValues.widthSelector);
             let width = Number($width.val());
 

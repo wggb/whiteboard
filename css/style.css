@@ -63,25 +63,41 @@
     overflow-y: scroll;
 }
 
-.modal-body .copy-container {
-    text-align: end;
+.hover-container {
     overflow: visible;
     height: 0;
     opacity: 0;
     transition: opacity 400ms;
 }
 
-.modal-body .copy-container.show {
+.hover-container.show {
     opacity: 0.8;
 }
 
-.modal-body .copy-container button {
+.hud .hover-container button {
+    position: absolute;
+    top: auto;
+    bottom: 0.6em;
+    right: 0.6em;
+}
+
+.hud .hover-container button.top {
+    top: 0.6em;
+    bottom: auto;
+}
+
+.modal-body .hover-container {
+    text-align: end;
+}
+
+
+.modal-body .hover-container button {
     position: absolute;
     top: 1.6em;
     right: 2.6em;
 }
 
-.modal-body .copy-container .btn-light {
+.modal-body .hover-container .btn-light {
     color: #000D;
 }
 
