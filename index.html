@@ -64,7 +64,7 @@
   </div>
 
   <div class="modal fade" id="save-load-modal" data-backdrop="static" data-keyboard="false" tabindex="-1"
-    aria-labelledby="save-load-lable" aria-hidden="true">
+    aria-labelledby="Save and load modal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content m-2">
         <div class="modal-header">
@@ -72,12 +72,15 @@
           <h5 class="modal-title save-item" id="save-lable">Save</h5>
           <h5 class="modal-title load-item d-none" id="load-lable">Load</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+            <span aria-hidden="true"><em class="bi bi-x"></em></span>
           </button>
         </div>
         <div class="modal-body">
           <textarea id="save-textarea" class="form-control save-item" aria-label="With textarea" readonly></textarea>
           <textarea id="load-textarea" class="form-control load-item d-none" aria-label="With textarea"></textarea>
+          <div id="copy-save-textarea-container" class="copy-container save-item">
+            <button id="copy-save-textarea" default-text="Copy" class="btn btn-light">Copy</button>
+          </div>
         </div>
         <div class="modal-footer justify-content-between">
           <div class="modal-buttons">

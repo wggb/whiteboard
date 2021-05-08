@@ -184,4 +184,26 @@ $('#whiteboard')[0].addEventListener('touchmove', function (event) {
     }
 });
 
+$('#save-textarea, #copy-save-textarea-container').hover(
+    function () {
+        $('#copy-save-textarea-container').addClass('show');
+    },
+    function () {
+        $('#copy-save-textarea-container').removeClass('show');
+    }
+);
+
+$('#copy-save-textarea').click(function () {
+    $('#save-textarea').select();
+    document.execCommand('copy');
+    if (window.getSelection) window.getSelection().removeAllRanges();
+    else if (document.selection) document.selection.empty();
+
+    let button = $(this)
+    button.text('Copied!');
+    setTimeout(function () {
+        button.text(button.attr('default-text'));
+    }, 1500);
+});
+
 $('#draw').addClass('btn-dark');

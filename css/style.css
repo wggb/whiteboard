@@ -1,3 +1,7 @@
+.modal .close em {
+    font-size: 1.8rem;
+}
+
 .sticky-sidebar {
     height: 100%;
     padding: 8px 2px;
@@ -52,6 +56,33 @@
         display: block;
         width: 100%;
     }
+}
+
+.modal-body textarea {
+    overflow: -moz-scrollbars-vertical; 
+    overflow-y: scroll;
+}
+
+.modal-body .copy-container {
+    text-align: end;
+    overflow: visible;
+    height: 0;
+    opacity: 0;
+    transition: opacity 400ms;
+}
+
+.modal-body .copy-container.show {
+    opacity: 0.8;
+}
+
+.modal-body .copy-container button {
+    position: absolute;
+    top: 1.6em;
+    right: 2.6em;
+}
+
+.modal-body .copy-container .btn-light {
+    color: #000D;
 }
 
 .scrollbar-hidden::-webkit-scrollbar {
