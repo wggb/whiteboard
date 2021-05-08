@@ -221,9 +221,11 @@ $(defaultValues.whiteboardSelector)[0].addEventListener('wheel',
             let width = Number($width.val());
 
             if (event.deltaY < 0 && width < defaultValues.maxWidth)
-                $width.val(width + 1);
+                $width.val(width += 1);
             else if (event.deltaY > 0 && width > defaultValues.minWidth)
-                $width.val(width - 1);
+                $width.val(width -= 1);
+
+            updateSelectedWidth(width);
         } else {
             if (event.deltaY < 0) zoomWhiteboard(1.2, 5);   // Why 5?
             else if (event.deltaY > 0) zoomWhiteboard(0.8, 5);
