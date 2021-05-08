@@ -8,6 +8,7 @@ const defaultValues = {
     mode: 'draw',
     color: '#000000',
     width: 6,
+    whiteboardSelector: '#whiteboard',
     modeSelector: '#mode',
     colorSelector: '#color',
     widthSelector: '#width',
@@ -179,6 +180,14 @@ function saveItems() {
     $('#save-textarea')[0].value = JSON.stringify(whiteboard.items);
 }
 
+function getEventDistance(event) {
+    let touches = event.touches;
+    return Math.sqrt(
+        Math.pow(touches[0].clientX - touches[1].clientX, 2) +
+        Math.pow(touches[0].clientY - touches[1].clientY, 2)
+    );
+}
+
 function zoomWhiteboard(rate, multiply) {
     let minValue = 0.4, maxValue = 16;
     let zoomValue = view.zoom * rate;
@@ -195,6 +204,52 @@ function zoomWhiteboard(rate, multiply) {
         view.zoom = zoomValue;
     }
 }
+
+var hotKeyPressed = false;
+$(window).keydown(function (event) {
+    if (event.which == 32 || event.which == 91 || event.which == 19)
+        hotKeyPressed = true;
+}).keyup(function (event) {
+    if (event.which == 32 || event.which == 91 || event.which == 19)
+        hotKeyPressed = false;
+});
+
+$(defaultValues.whiteboardSelector)[0].addEventListener('wheel',
+    function (event) {
+        if (hotKeyPressed) {
+            let $width = $(defaultValues.widthSelector);
+            let width = Number($width.val());
+
+            if (event.deltaY < 0 && width < defaultValues.maxWidth)
+                $width.val(width + 1);
+            else if (event.deltaY > 0 && width > defaultValues.minWidth)
+                $width.val(width - 1);
+        } else {
+            if (event.deltaY < 0) zoomWhiteboard(1.2, 5);   // Why 5?
+            else if (event.deltaY > 0) zoomWhiteboard(0.8, 5);
+        }
+    }
+);
+
+var onPinchDistance = null;
+$(defaultValues.whiteboardSelector)[0].addEventListener('touchstart',
+    function (event) {
+        if (whiteboard.mode == 'move' && event.touches.length > 1) {
+            onPinchDistance = getEventDistance(event);
+        }
+    }
+);
+
+$(defaultValues.whiteboardSelector)[0].addEventListener('touchmove',
+    function (event) {
+        if (whiteboard.mode == 'move' && event.touches.length > 1) {
+            event.preventDefault();
+            let newPinchDistance = getEventDistance(event);
+            zoomWhiteboard(Math.abs(newPinchDistance / onPinchDistance));
+            onPinchDistance = newPinchDistance;
+        }
+    }
+);
 
 tool.onMouseDown = function (event) {
     events.onMouseDown.forEach(function (func) {
@@ -234,6 +289,6 @@ tool.onKeyUp = function (event) {
 
 $(function () {
     chooseButton(defaultValues.mode);
-    $('#color')[0].value = defaultValues.color;
-    $('#width')[0].value = defaultValues.width;
+    $(defaultValues.colorSelector)[0].value = defaultValues.color;
+    $(defaultValues.widthSelector)[0].value = defaultValues.width;
 });

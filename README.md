@@ -10,6 +10,8 @@ A simple whiteboard, built with [paper.js](https://github.com/paperjs/paper.js),
 | Move                                                     | Mouse 3              | Any     |
 | Delete                                                   | Mouse 2              | Any     |
 | Delete selected items                                    | Del, Backspace       | Any     |
+| Zoom                                                     | Mouse wheel          | Any     |
+| Change stroke width                                      | Space + Mouse wheel  | Any     |
 | Clear whiteboard                                         | Space + Del          | Any     |
 | Reset whiteboard (clear the whiteboard and reset values) | Space + Backspace    | Any     |
 | Change mode to Move                                      | Space + 1            | Any     |

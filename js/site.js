@@ -1,17 +1,8 @@
 var onClickMode = null;
-var onPinchDistance = null;
 
 function isCanvasSupported() {
     var elem = document.createElement('canvas');
     return !!(elem.getContext && elem.getContext('2d'));
-}
-
-function getEventDistance(event) {
-    let touches = event.touches;
-    return Math.sqrt(
-        Math.pow(touches[0].clientX - touches[1].clientX, 2) +
-        Math.pow(touches[0].clientY - touches[1].clientY, 2)
-    );
 }
 
 function isLoad() {
@@ -162,26 +153,6 @@ $('#load-json-file').change(function () {
         $('#load-json-file')[0],
         $('#load-textarea')[0]
     );
-});
-
-$('#whiteboard')[0].addEventListener('wheel', function (event) {
-    if (event.deltaY < 0) zoomWhiteboard(1.2, 5);   // Why 5?
-    else if (event.deltaY > 0) zoomWhiteboard(0.8, 5);
-});
-
-$('#whiteboard')[0].addEventListener('touchstart', function (event) {
-    if (whiteboard.mode == 'move' && event.touches.length > 1) {
-        onPinchDistance = getEventDistance(event);
-    }
-});
-
-$('#whiteboard')[0].addEventListener('touchmove', function (event) {
-    if (whiteboard.mode == 'move' && event.touches.length > 1) {
-        event.preventDefault();
-        let newPinchDistance = getEventDistance(event);
-        zoomWhiteboard(Math.abs(newPinchDistance / onPinchDistance));
-        onPinchDistance = newPinchDistance;
-    }
 });
 
 $('#save-textarea, #copy-save-textarea-container').hover(
