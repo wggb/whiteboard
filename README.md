@@ -33,4 +33,4 @@ A simple whiteboard, built with [paper.js](https://github.com/paperjs/paper.js),
 See the [TODO.md](TODO.md) for a list of proposed features and some known issues.
 
 # 
-- [Whiteboard](https://whitegoosegoesblack.github.io/Whiteboard/)
+- [Whiteboard](https://whitegoosegoesblack.github.io/whiteboard/)
