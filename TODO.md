@@ -1,6 +1,5 @@
 # TODO
 
-- [ ] Change brush size shortcut (Space + Wheel)
 - [ ] Improve text input
 - [ ] Add some comments
 - [ ] Draw arrow
@@ -13,6 +12,7 @@
 
 # 
 
+- [x] Change brush size shortcut (Space + Wheel)
 - [x] Rotate paths
 - [x] Fix canvas focus problem when using shortcuts
 - [x] Change selected item width and color
