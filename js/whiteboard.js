@@ -136,6 +136,8 @@ var whiteboard = {
                     whiteboard.items.push(new Path(item[1]));
                 else if (mode == 'pointtext')
                     whiteboard.items.push(new PointText(item[1]));
+                else if (mode == 'raster')
+                    whiteboard.items.push(new Raster(item[1]));
             });
         } catch (error) { alert('Text can\'t be parsed.'); }
     }
@@ -294,4 +296,31 @@ $(function () {
     chooseButton(defaultValues.mode);
     $(defaultValues.colorSelector)[0].value = defaultValues.color;
     $(defaultValues.widthSelector)[0].value = defaultValues.width;
+});
+
+['dragenter', 'dragover', 'dragleave', 'drop'].forEach(function (eventName) {
+    $(defaultValues.whiteboardSelector)[0]
+        .addEventListener(eventName, function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }, false);
+});
+
+$(defaultValues.whiteboardSelector).on('drop', function (event) {
+    event.preventDefault();
+    let file = event.originalEvent.dataTransfer.files[0];
+
+    if (file && (file.type == 'image/png' || file.type == 'image/jpeg')) {
+        let reader = new FileReader();
+
+        reader.onload = function () {
+            let raster = new Raster(reader.result);
+            raster.position = new Point(
+                view.bounds.x + event.clientX,
+                view.bounds.y + event.clientY
+            );
+            whiteboard.items.push(raster);
+        };
+        reader.readAsDataURL(file);
+    }
 });

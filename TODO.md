@@ -1,5 +1,6 @@
 # TODO
 
+- [ ] Resize image
 - [ ] Improve text input
 - [ ] Add some comments
 - [ ] Draw arrow
