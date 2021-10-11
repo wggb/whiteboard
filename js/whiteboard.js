@@ -138,6 +138,12 @@ var whiteboard = {
                     whiteboard.items.push(new PointText(item[1]));
                 else if (mode == 'raster')
                     whiteboard.items.push(new Raster(item[1]));
+                
+                if (item[1].name) {
+                    let id = parseInt(item[1].name.replace('#', ''))
+                    if (!isNaN(id) && id >= whiteboard.current.id)
+                        whiteboard.current.id = id + 1;
+                }
             });
         } catch (error) { alert('Text can\'t be parsed.'); }
     }
