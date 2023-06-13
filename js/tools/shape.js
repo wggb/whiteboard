@@ -39,6 +39,7 @@ events.onMouseDrag.push(function (event) {
         } else if (Key.isDown('a')) {
             whiteboard.current.path = new Path({
                 segments: [clickPoint],
+                strokeJoin: 'round',
                 strokeCap: 'round'
             });
             if (Key.isDown('s') && Key.isDown('d')) {

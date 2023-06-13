@@ -16,6 +16,7 @@ events.onMouseDown.push(function (event) {
             segments: [event.point],
             strokeColor: whiteboard.color,
             strokeWidth: whiteboard.width,
+            strokeJoin: 'round',
             strokeCap: 'round',
             name: pathName
         });
